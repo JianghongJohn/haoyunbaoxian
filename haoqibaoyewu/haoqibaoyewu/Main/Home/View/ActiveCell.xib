@@ -15,7 +15,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="activity_detail.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="qZ8-XY-kDN">
+                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="p0.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="qZ8-XY-kDN">
                         <rect key="frame" x="8" y="8" width="304" height="83"/>
                     </imageView>
                 </subviews>
@@ -33,6 +33,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="activity_detail.jpg" width="750" height="290"/>
+        <image name="p0.jpg" width="400" height="300"/>
     </resources>
 </document>

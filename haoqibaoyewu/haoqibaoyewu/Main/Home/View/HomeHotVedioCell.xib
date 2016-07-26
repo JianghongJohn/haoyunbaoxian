@@ -15,7 +15,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="train-first.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="CfP-qt-CP5">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="p0.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="CfP-qt-CP5">
                         <rect key="frame" x="18" y="8" width="120" height="80"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="120" id="6MO-yL-MaP"/>
@@ -61,6 +61,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="train-first.jpg" width="234" height="153"/>
+        <image name="p0.jpg" width="400" height="300"/>
     </resources>
 </document>

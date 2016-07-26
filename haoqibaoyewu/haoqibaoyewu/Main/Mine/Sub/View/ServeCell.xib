@@ -15,7 +15,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sinosig.png" translatesAutoresizingMaskIntoConstraints="NO" id="HNs-PG-ZLL">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="p0.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="HNs-PG-ZLL">
                         <rect key="frame" x="8" y="8" width="45" height="45"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="45" id="SSy-Lb-dEw"/>
@@ -74,7 +74,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="sinosig.png" width="92" height="55"/>
+        <image name="p0.jpg" width="400" height="300"/>
         <image name="电话 (2)" width="20" height="20"/>
     </resources>
 </document>

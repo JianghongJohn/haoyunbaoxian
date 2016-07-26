@@ -42,14 +42,17 @@
     [super viewDidLoad];
     
     [self _makeData];
-    //加载网络数据
-    [self _loadMyData];
-    [self _loadUserAccount];
+  
     
     [self _creatSubViews];
     [self _creatTableView];
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    //加载网络数据
+    [self _loadMyData];
+    [self _loadUserAccount];
+    
+}
 
 /**
  *  创建tableView

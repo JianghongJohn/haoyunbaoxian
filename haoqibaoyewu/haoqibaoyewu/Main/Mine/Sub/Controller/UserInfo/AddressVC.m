@@ -10,9 +10,10 @@
 #import "CitySelectVC.h"
 @interface AddressVC ()<UITableViewDataSource,UITableViewDelegate>
 {
-    NSDictionary *_areaData;
-    NSArray *_provinceData;
-    NSArray *_cityData;
+    NSArray *_areaData;
+    NSMutableArray *_provinceData;
+    NSMutableArray *_cityData;
+    
 }
 @end
 
@@ -30,11 +31,23 @@
  *  加载数据
  */
 -(void)_loadAreaData{
-   NSString *stringPath = [[NSBundle mainBundle]pathForResource:@"city" ofType:@"plist"];
-
-    _areaData = [NSDictionary dictionaryWithContentsOfFile:stringPath];
+   NSString *stringPath = [[NSBundle mainBundle]pathForResource:@"citycode" ofType:@"json"];
+    //根据文件路径读取数据
+    NSData *jdata = [[NSData alloc]initWithContentsOfFile:stringPath];
+     NSError*error;
+    //格式化成json数据
+    id jsonObject = [NSJSONSerialization JSONObjectWithData:jdata options:kNilOptions error:&error];
     
-    _provinceData = [_areaData allKeys];
+    _areaData = jsonObject;
+    
+    _provinceData  = [NSMutableArray array];
+    
+    for (NSDictionary *data in _areaData) {
+        NSString *province = data[@"province"];
+        [_provinceData addObject:province];
+    }
+    
+//    _provinceData = [_areaData allKeys];
     
     
 }
@@ -73,9 +86,28 @@
     CitySelectVC *city = [[CitySelectVC alloc]init];
     [self _pushViewController:city];
     //获取城市数据
-    NSString *provinceKey = _provinceData[indexPath.row];
-    NSArray *cityData = _areaData[provinceKey];
-    city.citys = cityData;
+    NSDictionary *province = _areaData[indexPath.row];
+    //城市
+    NSArray *citys = province[@"cities"];
+    //城市名称
+    NSMutableArray *allCitys = [NSMutableArray array];
+    //城市编码
+    NSMutableArray *city_code = [NSMutableArray array];
+    
+    for (NSDictionary *dic in citys) {
+        NSString *thisCity = dic[@"city"];
+        NSString *citycode = dic[@"city_code"];
+        
+        [allCitys addObject:thisCity];
+        [city_code addObject:citycode];
+    }
+    
+    city.citys = allCitys;
+    city.city_codes = city_code;
+    
+    
+    
+//    city.citys = cityData;
 }
 
 - (void)didReceiveMemoryWarning {

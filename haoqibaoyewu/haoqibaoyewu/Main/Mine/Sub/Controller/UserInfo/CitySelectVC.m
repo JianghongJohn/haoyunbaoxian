@@ -49,6 +49,9 @@
         //获取城市数据
     NSString *cityKey = self.citys[indexPath.row];
     NSLog(@"选择城市:%@",cityKey);
+    NSString *citycode = self.city_codes[indexPath.row];
+    NSLog(@"选择城市:%@",citycode);
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

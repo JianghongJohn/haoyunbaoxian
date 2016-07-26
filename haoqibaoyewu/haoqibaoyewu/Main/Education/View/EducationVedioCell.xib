@@ -15,7 +15,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="train-second.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="4YY-Xs-B3C">
+                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="p0.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="4YY-Xs-B3C">
                         <rect key="frame" x="8" y="8" width="304" height="143"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="保险行业分析" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9x2-dO-Jud">
@@ -117,6 +117,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="train-second.jpg" width="234" height="151"/>
+        <image name="p0.jpg" width="400" height="300"/>
     </resources>
 </document>
