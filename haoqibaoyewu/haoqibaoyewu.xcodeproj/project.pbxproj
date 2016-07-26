@@ -119,6 +119,7 @@
 		A9E5D19D1D37B55F0017B086 /* TeamMemberVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E5D19C1D37B55F0017B086 /* TeamMemberVC.m */; };
 		A9E5D1A01D37BF6B0017B086 /* TeamMemberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E5D19F1D37BF6B0017B086 /* TeamMemberModel.m */; };
 		A9FDBC251D47323300ED12F8 /* SquareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDBC241D47323300ED12F8 /* SquareModel.m */; };
+		A9FDBC281D47440000ED12F8 /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDBC271D47440000ED12F8 /* UserInfoModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -334,6 +335,8 @@
 		A9E5D19F1D37BF6B0017B086 /* TeamMemberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamMemberModel.m; sourceTree = "<group>"; };
 		A9FDBC231D47323300ED12F8 /* SquareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SquareModel.h; sourceTree = "<group>"; };
 		A9FDBC241D47323300ED12F8 /* SquareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SquareModel.m; sourceTree = "<group>"; };
+		A9FDBC261D47440000ED12F8 /* UserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
+		A9FDBC271D47440000ED12F8 /* UserInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -852,6 +855,8 @@
 		A9BAECFC1D3489FB00B1108E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A9FDBC261D47440000ED12F8 /* UserInfoModel.h */,
+				A9FDBC271D47440000ED12F8 /* UserInfoModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1120,6 +1125,7 @@
 				A9E5D19D1D37B55F0017B086 /* TeamMemberVC.m in Sources */,
 				A9729D7F1D34C872002FFCD0 /* AuthenticationVC.m in Sources */,
 				A9729DC31D350669002FFCD0 /* MyPointVC.m in Sources */,
+				A9FDBC281D47440000ED12F8 /* UserInfoModel.m in Sources */,
 				A9729D841D34DF73002FFCD0 /* MyInviterVC.m in Sources */,
 				0D52675A1D2E30E100B7C0B9 /* HomeTableHead.m in Sources */,
 				A94C097E1D40663C006FCAE2 /* ActiveListVC.m in Sources */,

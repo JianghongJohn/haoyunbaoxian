@@ -16,14 +16,19 @@
 #import "QuestionAnswerVC.h"
 #import "MyCustomerVC.h"
 #import "ShareVC.h"
+#import "UserInfoModel.h"
 @interface MineVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_tableView;
+    
+    NSDictionary *_userInfo;//用户信息
+    NSDictionary *_userAccount;//账户信息
+    //会变化的属性
     NSArray *_imageNames;//使用的图标
     NSArray *_titleNames;//名称
     UIImageView *_headImage;//用户头像
     UILabel *_nameLabel;//用户名字
-
+  
 }
 
 
@@ -37,6 +42,10 @@
     [super viewDidLoad];
     
     [self _makeData];
+    //加载网络数据
+    [self _loadMyData];
+    [self _loadUserAccount];
+    
     [self _creatSubViews];
     [self _creatTableView];
 }
@@ -79,6 +88,151 @@
 -(void)_makeData{
     _imageNames = @[@"订单",@"客户",@"战队",@"任务",@"有奖",@"咨询",@"体验站",@"理赔",@"更多"];
     _titleNames = @[@"我的订单",@"我的客户",@"我的战队",@"我的任务",@"推荐有奖",@"问题咨询",@"体验站",@"理赔服务",@"更多"];
+    
+}
+#pragma mark - 我的数据信息
+-(void)_loadMyData{
+    /**
+     *  获取数据
+     "data": {
+     "userId": 59,
+     "headUrl": "http://bcis.oss-cn-hzfinance.aliyuncs.com/data/1468999866053.jpg?Expires=1784359861&OSSAccessKeyId=pAOuT63dTHx9GiUd&Signature=/mVSRqOQnmSDwc10iU6izQtenvg%3D",
+     "nickName": "小红",
+     "cityCode": "310100",
+     "inviterId": 98,
+     "inviterName": "羊羊羊",
+     "state": "00",
+     "mobileNo": "15757166458",
+     "rejectReason": null,
+     "openId": "oZwSdwb3oxqpYT0tPSmyoYGWpf6g"
+     }
+     */
+    
+    NSString *urlString1 = @"getUserInfo.json";
+    NSDictionary *parameters1 =  @{
+                                   };
+    //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
+    NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
+    NSLog(@"jsonStr:%@",jsonStr);
+    NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
+    
+    [JH_NetWorking requestData:urlString1 HTTPMethod:@"GET" params:[params mutableCopy] completionHandle:^(id result) {
+        NSDictionary *dic = result;
+        NSNumber *isSuccess = dic[@"success"];
+        //判断是否成功
+        if ([isSuccess isEqual:@1]) {
+            NSDictionary *data = dic[@"data"];
+            _userInfo = data;
+            
+            //刷新UI
+            [_headImage sd_setImageWithURL:[NSURL URLWithString:data[@"headUrl"]] placeholderImage:[UIImage LoadImageFromBundle:JH_BaseImage]];
+            _nameLabel.text = data[@"nickName"];
+            
+            
+            /**
+             *  关闭进度条
+             */
+            [SVProgressHUD dismiss];
+            [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:0];
+            
+            
+        }else{
+            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+            
+            
+        }
+        
+        
+    } errorHandle:^(NSError *error) {
+        
+    }];
+    
+    
+}
+-(void)_loadUserAccount{
+    
+    /**
+     *  获取数据"data": {
+     "userKpi": {
+     "kpiId": 26,
+     "userId": 59,
+     "totalBonus": 0.00,
+     "remainBonus": 0.00,
+     "premium": 0.00,
+     "policyCount": 0,
+     "todayPremium": 0.00,
+     "todayPolicyCount": 0,
+     "bonusPoint": 0.00,
+     "todayBonus": 0.00,
+     "todayPolicyTime": 1469518470000,
+     "todayBonusTime": 1469518470000,
+     "monthBonus": 0.00,
+     "monthBonusTime": 1469030400000,
+     "createTime": 1468569396000,
+     "updateTime": 1469518470000,
+     "monthPremium": null
+     },
+     "account": {
+     "accountId": 52,
+     "userId": 59,
+     "accountNo": null,
+     "amount": 0.00,
+     "availAmt": 0.00,
+     "frozenAmt": 0.00,
+     "accountType": "01",
+     "status": "01",
+     "createTime": 1468569396000,
+     "updateTime": 1468569396000
+     },
+     "cityCode": null,
+     "premium": null,
+     "policyCount": null,
+     "totalBonusAmount": null,
+     "userId": null,
+     "totalBonus": null,
+     "name": null,
+     "mobileNo": null,
+     "personCount": null,
+     "teamPremium": null,
+     "teamPolicyCount": null,
+     "teamTotalBonus": null
+     }
+     */
+    
+    NSString *urlString1 = @"getUserAccount.json";
+    NSDictionary *parameters1 =  @{
+                                   };
+    //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
+    NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
+    NSLog(@"jsonStr:%@",jsonStr);
+    NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
+    
+    [JH_NetWorking requestData:urlString1 HTTPMethod:@"GET" params:[params mutableCopy] completionHandle:^(id result) {
+        NSDictionary *dic = result;
+        NSNumber *isSuccess = dic[@"success"];
+        //判断是否成功
+        if ([isSuccess isEqual:@1]) {
+            NSDictionary *data = dic[@"data"];
+            _userAccount = data;
+            
+            
+            /**
+             *  关闭进度条
+             */
+            [SVProgressHUD dismiss];
+            
+            [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:0];
+            
+        }else{
+            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+            
+            
+        }
+        
+        
+    } errorHandle:^(NSError *error) {
+        
+    }];
     
 }
 
@@ -135,6 +289,18 @@
         return cell;
 }else{
         MineWalletCell *walletCell  = [[[NSBundle mainBundle]loadNibNamed:@"MineWalletCell" owner:self options:nil]firstObject];
+    
+    if (_userAccount!=nil) {
+        NSDictionary *userAccount = _userAccount[@"account"];
+        NSNumber *amount = userAccount[@"amount"];
+        walletCell.walletAmount = [NSString stringWithFormat:@"%@",amount];
+        
+        NSDictionary *userKpi = _userAccount[@"userKpi"];
+        NSNumber *bonusPoint = userKpi[@"bonusPoint"];
+        walletCell.pointAmount = [NSString stringWithFormat:@"%@",bonusPoint];
+        
+        
+    }
         return walletCell;
     }
     
@@ -162,7 +328,7 @@
      */
     if (indexPath.section==0) {
         UserInfoVC *user = [[UserInfoVC alloc] init];
-     
+        user.userInfo = _userInfo;
         [self _pushViewController:user];
        
     }

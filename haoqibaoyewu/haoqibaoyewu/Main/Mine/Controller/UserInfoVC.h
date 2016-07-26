@@ -9,5 +9,5 @@
 #import "BaseVC.h"
 
 @interface UserInfoVC : BaseVC
-
+@property(nonatomic,copy)NSDictionary *userInfo;
 @end

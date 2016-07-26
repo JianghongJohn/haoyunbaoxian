@@ -14,11 +14,15 @@
 #import "NickNameVC.h"
 #import "AddressVC.h"
 #import "CheckPhoneVC.h"
+
 @interface UserInfoVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_tableView;
     NSArray *_detailNames;//详细信息
     NSArray *_titleNames;//名称
+    
+    NSString *_imageUrl;
+   
 }
 @end
 /**
@@ -74,7 +78,33 @@
  *  处理数据
  */
 -(void)_makeData{
-    _detailNames = @[@"",@"呆呆",@"浙江-杭州",@"江红",@"未激活",@"15757166458",@"未绑定"];
+    
+    if (_userInfo!=nil) {
+        
+        //获取头像
+        _imageUrl = _userInfo[@"headUrl"];
+        
+        NSString *isAuthentication;
+        
+        //处理用户状态
+        if ([_userInfo[@"state"]isEqualToString:@"00"]) {
+            isAuthentication = @"未认证";
+        }else if ([_userInfo[@"state"]isEqualToString:@"01"]){
+            isAuthentication = @"已认证";
+        }else{
+            isAuthentication = @"已注销";
+        }
+        //处理微信绑定
+        NSString *isOpenId;
+        if (_userInfo[@"openId"]==nil) {
+            isOpenId = @"未绑定";
+        }else{
+            isOpenId = @"已绑定";
+        }
+        
+        
+        _detailNames = @[@"",_userInfo[@"nickName"],_userInfo[@"cityCode"],_userInfo[@"inviterName"],isAuthentication,_userInfo[@"mobileNo"],isOpenId];
+    }
     _titleNames = @[@"头像",@"昵称",@"所在城市",@"邀请人",@"实名认证",@"手机号",@"微信绑定"];
     
 }
@@ -107,7 +137,7 @@
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH-40-50,15, 50, 50)];
             imageView.layer.cornerRadius = imageView.width/2;
             imageView.layer.masksToBounds = YES;
-            imageView.image = [UIImage LoadImageFromBundle:@"20 4.jpg"];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:[UIImage LoadImageFromBundle:JH_BaseImage]];
             [cell.contentView addSubview:imageView];
         }
      

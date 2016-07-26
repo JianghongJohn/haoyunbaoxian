@@ -14,4 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *pointStaticLabel;
 @property (weak, nonatomic) IBOutlet UILabel *walletStaticLabel;
 
+@property(nonatomic,copy)NSString *walletAmount;
+@property(nonatomic,copy)NSString *pointAmount;
 @end

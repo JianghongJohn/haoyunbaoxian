@@ -60,5 +60,20 @@
 
     // Configure the view for the selected state
 }
+-(void)setPointAmount:(NSString *)pointAmount{
+    if (_pointAmount!=pointAmount) {
+        _pointAmount = pointAmount;
+        _pointLabel.text = _pointAmount;
+    }
+    
+}
+-(void)setWalletAmount:(NSString *)walletAmount{
+    if (_walletAmount!=walletAmount) {
+        _walletAmount = walletAmount;
+        _walletLabel.text = _walletAmount;
+    }
+}
+
+
 
 @end
