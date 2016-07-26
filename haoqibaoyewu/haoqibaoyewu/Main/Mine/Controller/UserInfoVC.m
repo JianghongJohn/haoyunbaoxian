@@ -1,0 +1,189 @@
+//
+//  UserInfoVCViewController.m
+//  haoqibaoyewu
+//
+//  Created by hyjt on 16/7/12.
+//  Copyright © 2016年 jianghong. All rights reserved.
+//
+
+#import "UserInfoVC.h"
+#import "AuthenticationVC.h"
+#import "MyInviterVC.h"
+#import "InviterVC.h"
+#import "MyHeadPortrait.h"
+#import "NickNameVC.h"
+#import "AddressVC.h"
+#import "CheckPhoneVC.h"
+@interface UserInfoVC ()<UITableViewDelegate,UITableViewDataSource>
+{
+    UITableView *_tableView;
+    NSArray *_detailNames;//详细信息
+    NSArray *_titleNames;//名称
+}
+@end
+/**
+ *  总共分为两组，1为基本信息 2账户信息
+ */
+@implementation UserInfoVC
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title = @"我的资料";
+    [self _makeData];
+    [self _creatSubViews];
+    [self _creatTableView];
+}
+
+
+/**
+ *  创建tableView
+ */
+-(void)_creatTableView{
+    
+    if (_tableView==nil) {
+        
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, kTopBarHeight, SCREENWIDTH, SCREENHEIGHT-kTopBarHeight) style:UITableViewStyleGrouped];
+    }
+    [self.view addSubview:_tableView];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    /**
+     *  创建一个底部按钮
+     *
+     *  @return 点击推出登陆
+     */
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 80)];
+    
+    UIButton *bottomButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 20, SCREENWIDTH-40, 30)];
+    bottomButton.backgroundColor = [UIColor redColor];
+    [bottomButton setTitle:@"退出登录" forState:UIControlStateNormal];
+    [bottomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    bottomButton.layer.cornerRadius = 5;
+    [bottomView addSubview:bottomButton];
+    
+    _tableView.tableFooterView = bottomView;
+}
+//创建内部的一些视图
+-(void)_creatSubViews{
+    //用户信息考虑到会发生变化故做成全局的
+ 
+    
+}
+/**
+ *  处理数据
+ */
+-(void)_makeData{
+    _detailNames = @[@"",@"呆呆",@"浙江-杭州",@"江红",@"未激活",@"15757166458",@"未绑定"];
+    _titleNames = @[@"头像",@"昵称",@"所在城市",@"邀请人",@"实名认证",@"手机号",@"微信绑定"];
+    
+}
+
+#pragma mark - tableViewDataSource
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
+{
+    return section?2:5;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    static NSString *userInfoCell = @"userInfoCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:userInfoCell];
+    if (cell==nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:userInfoCell];
+    }
+    
+    if (indexPath.section==1) {
+        cell.textLabel.text = _titleNames[indexPath.row+5];
+        cell.detailTextLabel.text = _detailNames[indexPath.row+5];
+    }else{
+        cell.textLabel.text = _titleNames[indexPath.row];
+        cell.detailTextLabel.text = _detailNames[indexPath.row];
+        //第一行第一列为图片信息
+        if(indexPath.row==0){
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH-40-50,15, 50, 50)];
+            imageView.layer.cornerRadius = imageView.width/2;
+            imageView.layer.masksToBounds = YES;
+            imageView.image = [UIImage LoadImageFromBundle:@"20 4.jpg"];
+            [cell.contentView addSubview:imageView];
+        }
+     
+        
+    }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    return cell;
+}
+
+#pragma mark - tableViewDataDelegate
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section==0&&indexPath.row==0) {
+        return 80;
+    }
+    return 44;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 30;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 1;
+}
+//头视图
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    NSArray *headerTitle = @[@"基本信息",@"账号信息"];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 30)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, SCREENWIDTH-20, 30)];
+    label.text = headerTitle[section];
+    label.textColor = [UIColor redColor];
+    //左边还有一个图片
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 5, 20)];
+    imageView.image = [UIImage imageNamed:@"i"];
+    
+    [view addSubview:imageView];
+    
+    [view addSubview:label];
+    return view;
+  
+}
+#pragma mark - 选中事件
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section==0&&indexPath.row==4) {//身份认证
+        AuthenticationVC *authentication = [[AuthenticationVC alloc] init];
+       
+        [self _pushViewController:authentication];
+    }
+    if (indexPath.section==0&&indexPath.row==3) {//我的邀请人
+        MyInviterVC *inviter = [[MyInviterVC alloc] init];
+       
+        [self _pushViewController:inviter];
+    }
+    if (indexPath.section==0&&indexPath.row==0) {//我的头像
+         MyHeadPortrait *head = [[MyHeadPortrait alloc] init];
+       
+        [self _pushViewController:head];
+    }
+    if (indexPath.section==0&&indexPath.row==1) {//昵称
+        NickNameVC *nickName = [[NickNameVC alloc] init];
+        [self _pushViewController:nickName];
+    }
+    if (indexPath.section==0&&indexPath.row==2) {//城市
+        AddressVC *address = [[AddressVC alloc] init];
+        [self _pushViewController:address];
+    }
+    if (indexPath.section==1&&indexPath.row==0) {//手机号
+        CheckPhoneVC *phone = [[CheckPhoneVC alloc] init];
+        [self _pushViewController:phone];
+    }
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end

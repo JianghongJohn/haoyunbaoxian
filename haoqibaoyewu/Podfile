@@ -1,0 +1,14 @@
+
+platform :ios, '8.0'
+target 'haoqibaoyewu' do
+pod 'NJKWebViewProgress'
+pod 'SVProgressHUD'
+pod 'MJExtension'
+pod 'Masonry'
+pod 'MBProgressHUD'
+pod 'SDWebImage'
+pod 'IQKeyboardManager'
+pod 'AFNetworking'
+pod 'MJRefresh'
+
+end

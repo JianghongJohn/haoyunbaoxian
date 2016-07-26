@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="HomeHotVedioCell" selectionStyle="default" indentationWidth="10" rowHeight="100" id="KGk-i7-Jjw" customClass="HomeHotVedioCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="train-first.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="CfP-qt-CP5">
+                        <rect key="frame" x="18" y="8" width="120" height="80"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="120" id="6MO-yL-MaP"/>
+                            <constraint firstAttribute="height" constant="80" id="zO9-yP-RJT"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="保险" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uu5-aA-XVU">
+                        <rect key="frame" x="143" y="8" width="159" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="uLp-Re-IGX"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="项目中将会大量使用封装基类的做法，对于重复使用的视图进行子类化" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cMA-Cu-1tF">
+                        <rect key="frame" x="143" y="39" width="159" height="46"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="46" id="2JN-Xn-NjL"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="cMA-Cu-1tF" secondAttribute="trailing" constant="10" id="59b-ID-AAh"/>
+                    <constraint firstItem="CfP-qt-CP5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="CLd-g1-TR0"/>
+                    <constraint firstItem="uu5-aA-XVU" firstAttribute="leading" secondItem="CfP-qt-CP5" secondAttribute="trailing" constant="5" id="LdX-My-oPO"/>
+                    <constraint firstItem="cMA-Cu-1tF" firstAttribute="top" secondItem="uu5-aA-XVU" secondAttribute="bottom" constant="10" id="MOl-Xh-VGC"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="uu5-aA-XVU" secondAttribute="trailing" constant="10" id="fqU-O1-p24"/>
+                    <constraint firstItem="CfP-qt-CP5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="kof-sA-lFK"/>
+                    <constraint firstItem="uu5-aA-XVU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="pE1-Ug-xGE"/>
+                    <constraint firstItem="cMA-Cu-1tF" firstAttribute="leading" secondItem="CfP-qt-CP5" secondAttribute="trailing" constant="5" id="qGa-fu-MIx"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="discription" destination="cMA-Cu-1tF" id="at0-1b-DMy"/>
+                <outlet property="displayPic" destination="CfP-qt-CP5" id="OlD-kA-zOy"/>
+                <outlet property="videoName" destination="uu5-aA-XVU" id="SdJ-ns-ntJ"/>
+            </connections>
+            <point key="canvasLocation" x="413" y="248"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="train-first.jpg" width="234" height="153"/>
+    </resources>
+</document>
