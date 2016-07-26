@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SquareModel.h"
 @interface SquareCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *hotLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *newsPic;
+@property (weak, nonatomic) IBOutlet UILabel *NewsTitle;
+
+@property (weak, nonatomic) IBOutlet UILabel *newsDescription;
+
+@property(nonatomic ,strong)SquareModel *model;
 @end

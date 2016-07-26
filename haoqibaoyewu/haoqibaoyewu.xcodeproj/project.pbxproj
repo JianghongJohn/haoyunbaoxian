@@ -118,6 +118,7 @@
 		A9E5D19A1D37B03D0017B086 /* 3 8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9E5D1931D37B03D0017B086 /* 3 8.jpg */; };
 		A9E5D19D1D37B55F0017B086 /* TeamMemberVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E5D19C1D37B55F0017B086 /* TeamMemberVC.m */; };
 		A9E5D1A01D37BF6B0017B086 /* TeamMemberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E5D19F1D37BF6B0017B086 /* TeamMemberModel.m */; };
+		A9FDBC251D47323300ED12F8 /* SquareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDBC241D47323300ED12F8 /* SquareModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -296,8 +297,8 @@
 		A9729DD11D352333002FFCD0 /* sinosig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sinosig.png; sourceTree = "<group>"; };
 		A99C4B8B1D45ADB700A2C826 /* ActiveImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveImageView.h; sourceTree = "<group>"; };
 		A99C4B8C1D45ADB700A2C826 /* ActiveImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveImageView.m; sourceTree = "<group>"; };
-		A99C4B911D45F78800A2C826 /* NewsWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsWebVC.h; sourceTree = "<group>"; };
-		A99C4B921D45F78800A2C826 /* NewsWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsWebVC.m; sourceTree = "<group>"; };
+		A99C4B911D45F78800A2C826 /* NewsWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewsWebVC.h; path = ../../../Base/Controller/NewsWebVC.h; sourceTree = "<group>"; };
+		A99C4B921D45F78800A2C826 /* NewsWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewsWebVC.m; path = ../../../Base/Controller/NewsWebVC.m; sourceTree = "<group>"; };
 		A99C4B941D4616AB00A2C826 /* VedioModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VedioModel.h; sourceTree = "<group>"; };
 		A99C4B951D4616AB00A2C826 /* VedioModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VedioModel.m; sourceTree = "<group>"; };
 		A9BAECFE1D348A1E00B1108E /* MineVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineVC.m; sourceTree = "<group>"; };
@@ -331,6 +332,8 @@
 		A9E5D19C1D37B55F0017B086 /* TeamMemberVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamMemberVC.m; sourceTree = "<group>"; };
 		A9E5D19E1D37BF6B0017B086 /* TeamMemberModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamMemberModel.h; sourceTree = "<group>"; };
 		A9E5D19F1D37BF6B0017B086 /* TeamMemberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamMemberModel.m; sourceTree = "<group>"; };
+		A9FDBC231D47323300ED12F8 /* SquareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SquareModel.h; sourceTree = "<group>"; };
+		A9FDBC241D47323300ED12F8 /* SquareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SquareModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -380,8 +383,6 @@
 				0D169B781D2B912C00F94E21 /* BaseVC.m */,
 				0D5267611D2E32B900B7C0B9 /* WebViewController.h */,
 				0D5267621D2E32B900B7C0B9 /* WebViewController.m */,
-				A99C4B911D45F78800A2C826 /* NewsWebVC.h */,
-				A99C4B921D45F78800A2C826 /* NewsWebVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -575,6 +576,8 @@
 			children = (
 				0D169B831D2B925200F94E21 /* SquareVC.h */,
 				0D169B841D2B925200F94E21 /* SquareVC.m */,
+				A99C4B911D45F78800A2C826 /* NewsWebVC.h */,
+				A99C4B921D45F78800A2C826 /* NewsWebVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -840,6 +843,8 @@
 		A9BAECFB1D3489C700B1108E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A9FDBC231D47323300ED12F8 /* SquareModel.h */,
+				A9FDBC241D47323300ED12F8 /* SquareModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1118,6 +1123,7 @@
 				A9729D841D34DF73002FFCD0 /* MyInviterVC.m in Sources */,
 				0D52675A1D2E30E100B7C0B9 /* HomeTableHead.m in Sources */,
 				A94C097E1D40663C006FCAE2 /* ActiveListVC.m in Sources */,
+				A9FDBC251D47323300ED12F8 /* SquareModel.m in Sources */,
 				A93B6C4C1D3E044000B9E10F /* ServeModel.m in Sources */,
 				A94C099E1D40D36C006FCAE2 /* ShareVC.m in Sources */,
 				0D6A8D8E1D2F4366006D3C44 /* HomeHotVedioCell.m in Sources */,

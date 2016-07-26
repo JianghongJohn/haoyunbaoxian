@@ -40,16 +40,16 @@
     [self _creatSearchBar];
     [self _creatTableView];
     /**
+     *  判断通知是否执行，执行了则不调用初始方法
+     */
+    [self _loadDataWithPage:@"1" rows:@"10" byVideoName:@""];
+    
+    /**
      *  接收通知
      *
      */
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receiveNotification:) name:JH_TurnToVideoById object:nil];
-    BOOL isNotifi = [self respondsToSelector:@selector(receiveNotification:)];
-    if (!isNotifi) {
-        
-        [self _loadDataWithPage:@"1" rows:@"10" byVideoName:@""];
-    }
-}
+   }
 /**
  *  移除通知
  */

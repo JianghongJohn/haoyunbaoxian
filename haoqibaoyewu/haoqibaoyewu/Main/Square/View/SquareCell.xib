@@ -65,7 +65,10 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="NewsTitle" destination="Djg-Iw-lng" id="8DF-Xw-a94"/>
                 <outlet property="hotLabel" destination="xcv-h6-BAC" id="NF8-me-tIN"/>
+                <outlet property="newsDescription" destination="bJK-CS-822" id="a8G-cg-wXb"/>
+                <outlet property="newsPic" destination="a9i-iq-8cC" id="FtU-kW-O4N"/>
             </connections>
             <point key="canvasLocation" x="305" y="346"/>
         </tableViewCell>
