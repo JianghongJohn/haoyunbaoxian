@@ -19,4 +19,5 @@
 
 //通知
 #define JH_TokenExpired @"JH_TokenExpired"
+#define JH_TurnToVideoById @"JH_TurnToVideoById"
 #endif /* CommonHeader_h */

@@ -36,11 +36,85 @@
     _page=1;
     _videoName = @"";
     
-    
-    [self _loadDataWithPage:@"1" rows:@"10" byVideoName:@""];
+   
     [self _creatSearchBar];
     [self _creatTableView];
+    /**
+     *  接收通知
+     *
+     */
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receiveNotification:) name:JH_TurnToVideoById object:nil];
+    BOOL isNotifi = [self respondsToSelector:@selector(receiveNotification:)];
+    if (!isNotifi) {
+        
+        [self _loadDataWithPage:@"1" rows:@"10" byVideoName:@""];
+    }
 }
+/**
+ *  移除通知
+ */
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+/**
+ *  接收通知
+ *
+ *  @param notification 通知响应方法
+ */
+-(void)receiveNotification:(NSNotification *)notification{
+    NSLog(@"%@",notification.userInfo );
+    NSDictionary *dic = notification.userInfo;
+     _videoArray = [NSMutableArray array];
+    
+    NSString *urlString1 = @"getVideoListByCondition.json";
+    NSDictionary *parameters1 =  @{
+                                   @"page": @1,
+                                   @"rows": @1,
+                                   @"id":dic[@"id"]
+                                   };
+    //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
+    NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
+    NSLog(@"jsonStr:%@",jsonStr);
+    NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
+    
+    [JH_NetWorking requestData:urlString1 HTTPMethod:@"POST" params:[params mutableCopy] completionHandle:^(id result) {
+        NSDictionary *dic = result;
+        NSNumber *isSuccess = dic[@"success"];
+        //判断是否成功
+        if ([isSuccess isEqual:@1]) {
+            NSArray *data = dic[@"results"];
+          
+                
+                for (NSDictionary *dic in data) {
+                    VedioModel *model = [VedioModel mj_objectWithKeyValues:dic];
+                    [model setVideoDescription:dic[@"description"]];
+                    [_videoArray addObject:model];
+                
+                
+                [_tableView reloadData];
+            }
+            /**
+             *  关闭进度条
+             */
+            [SVProgressHUD showSuccessWithStatus:@"数据已加载"];
+            
+            
+            
+        }else{
+            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+            
+            
+        }
+        
+        
+    } errorHandle:^(NSError *error) {
+        
+    }];
+    
+}
+
+
+
 /**
  *  创建tableView
  */
@@ -195,10 +269,7 @@
     } errorHandle:^(NSError *error) {
         
     }];
-    
-    
-    
-    
+
 }
 
 

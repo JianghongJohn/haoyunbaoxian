@@ -34,29 +34,30 @@
     _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, kTopBarHeight, SCREENWIDTH, SCREENHEIGHT-kBottomBarHeight)];
    
     [self.view addSubview:_webView];
-    /**
-     webviewProgress
-     */
-    
-    _webViewProgress = [[NJKWebViewProgress alloc] init];
-    _webView.delegate = _webViewProgress;
-    _webViewProgress.webViewProxyDelegate = self;
-    _webViewProgress.progressDelegate = self;
     
     
-    CGRect navBounds = self.navigationController.navigationBar.bounds;
-    CGRect barFrame = CGRectMake(0,
-                                 navBounds.size.height - 2,
-                                 navBounds.size.width,
-                                 2);
-    _webViewProgressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
-    _webViewProgressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    [_webViewProgressView setProgress:0 animated:YES];
-    
-    [self.navigationController.navigationBar addSubview:_webViewProgressView];
-    
-
+#pragma mark - 只有启动urlRequest才使用进度条
     if (![self.urlString isKindOfClass:[NSNull class]]&&self.urlString!=nil&&![self.urlString isEqualToString:@""]) {
+        /**
+         webviewProgress
+         */
+        
+        _webViewProgress = [[NJKWebViewProgress alloc] init];
+        _webView.delegate = _webViewProgress;
+        _webViewProgress.webViewProxyDelegate = self;
+        _webViewProgress.progressDelegate = self;
+        
+        
+        CGRect navBounds = self.navigationController.navigationBar.bounds;
+        CGRect barFrame = CGRectMake(0,
+                                     navBounds.size.height - 2,
+                                     navBounds.size.width,
+                                     2);
+        _webViewProgressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
+        _webViewProgressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        [_webViewProgressView setProgress:0 animated:YES];
+        
+        [self.navigationController.navigationBar addSubview:_webViewProgressView];
         
         NSURL *url = [NSURL URLWithString:_urlString];
         NSURLRequest *reuqest = [NSURLRequest requestWithURL:url];
@@ -68,6 +69,7 @@
      */
     if (![self.tpl isKindOfClass:[NSNull class]]&&self.tpl!=nil) {
         
+        _webView.delegate = self;
         [_webView loadHTMLString:_tpl baseURL:nil];
   
     }

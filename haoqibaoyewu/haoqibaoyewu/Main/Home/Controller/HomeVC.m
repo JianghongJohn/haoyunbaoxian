@@ -22,7 +22,7 @@
     
     UIScrollView *_scrollView;
     NSArray *_newsData;
-    NSMutableArray *_vedioArray;
+    NSMutableArray *_videoArray;
     
 }
 @end
@@ -122,8 +122,8 @@
     /**
      *  获取数据
      */
-    if (_vedioArray==nil) {
-        _vedioArray = [NSMutableArray array];
+    if (_videoArray==nil) {
+        _videoArray = [NSMutableArray array];
     }
     
     NSString *urlString1 = @"getVideoListByCondition.json";
@@ -146,7 +146,7 @@
             for (NSDictionary *dic in data) {
                 VedioModel *model = [VedioModel mj_objectWithKeyValues:dic];
                 [model setVideoDescription:dic[@"description"]];
-                [_vedioArray addObject:model];
+                [_videoArray addObject:model];
             }
             [_tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:0];
             /**
@@ -318,7 +318,7 @@
 {
     
     if (section==2) {
-        return _vedioArray.count;
+        return _videoArray.count;
     }
     if (section==1) {
         return _newsData.count;
@@ -331,7 +331,7 @@
     //热点培训
     if (indexPath.section==2) {
         HomeHotVedioCell *homeHotVedioCell = [[[NSBundle mainBundle]loadNibNamed:@"HomeHotVedioCell" owner:self options:nil]firstObject];
-        homeHotVedioCell.model = _vedioArray[indexPath.row];
+        homeHotVedioCell.model = _videoArray[indexPath.row];
         return homeHotVedioCell;
     }else{
         static NSString *homeCell = @"homeCell";
@@ -449,6 +449,37 @@
         [self _pushViewController:news];
         
    
+    }
+    /**
+     *  跳转到视频教育界面
+     */
+    if (indexPath.section==2) {
+        //获取视频链接
+        VedioModel *model = _videoArray[indexPath.row];
+        
+        //广场
+        //获取tabbar
+        AppDelegate *appdelegate = APPDELEGATE;
+        UITabBarController *tabbar = (UITabBarController *)appdelegate.window.rootViewController;
+        
+        tabbar.selectedIndex = 1;
+        /**
+         *  发送通知
+         *
+         */
+        /**
+         *  线程等待
+         *
+         *  @param DISPATCH_TIME_NOW 当前时间延迟
+         *  @param int64_t 延迟执行
+         *
+         *  @return 延迟发送通知，使通知能够在页面出现之后接收通知
+         */
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [[NSNotificationCenter defaultCenter]postNotificationName:JH_TurnToVideoById object:nil userInfo:@{@"id":@(model.id)}];
+        });
+        
     }
     
     
