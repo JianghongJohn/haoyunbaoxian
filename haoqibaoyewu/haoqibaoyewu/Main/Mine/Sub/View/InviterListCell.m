@@ -22,4 +22,17 @@
     // Configure the view for the selected state
 }
 
+-(void)setModel:(InviterModel *)model{
+    if (_model != model) {
+        _model = model;
+        
+        [_headImageView sd_setImageWithURL:[NSURL URLWithString:_model.headUrl] placeholderImage:[UIImage LoadImageFromBundle:JH_BaseImage]];
+        _name.text = _model.name;
+        
+        _mobileNo.text = _model.mobileNo;
+        
+    }
+    
+    
+}
 @end

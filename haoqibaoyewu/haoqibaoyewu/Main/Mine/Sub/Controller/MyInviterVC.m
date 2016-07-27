@@ -70,7 +70,55 @@
  *  处理数据
  */
 -(void)_makeData{
-    _detailNames = @[@"江红",@"15757166458",@"20",@"￥520.00",@"4"];
+    /**
+     *  获取数据
+     */
+    
+    NSString *urlString1 = @"getMyInviter.json";
+    NSDictionary *parameters1 =  @{
+                                   @"inviterId": @(_inviterId)
+                                   
+                                   };
+    //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
+    NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
+    NSLog(@"jsonStr:%@",jsonStr);
+    NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
+    
+    [JH_NetWorking requestData:urlString1 HTTPMethod:@"GET" params:[params mutableCopy] completionHandle:^(id result) {
+        NSDictionary *dic = result;
+        NSNumber *isSuccess = dic[@"success"];
+        //判断是否成功
+        if ([isSuccess isEqual:@1]) {
+            NSDictionary *data = dic[@"data"];
+            /**
+             *  关闭进度条
+             */
+            //获取数据
+            if ([data isKindOfClass:[NSNull class]]) {
+                _detailNames = @[@"",@"",@"",@"",@""];
+            }else{
+                
+                _detailNames = @[data[@"name"],data[@"mobileNo"],data[@"personCount"],data[@"premium"],data[@"policyCount"]];
+                
+               
+            }
+             [_tableView reloadData];
+            [SVProgressHUD dismiss];
+    
+        }else{
+            _detailNames = @[@"",@"",@"",@"",@""];
+            
+            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+            
+            
+        }
+        
+        
+    } errorHandle:^(NSError *error) {
+        
+    }];
+    
+//    _detailNames = @[@"江红",@"15757166458",@"20",@"￥520.00",@"4"];
     _titleNames = @[@"姓名",@"电话",@"人数",@"总保费",@"总保单"];
     
 }
@@ -79,7 +127,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 {
-    return 5;
+    return _detailNames.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -91,8 +139,12 @@
     }
     
         cell.textLabel.text = _titleNames[indexPath.row];
+    if ([_detailNames[indexPath.row] isKindOfClass:[NSNumber class]]) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",_detailNames[indexPath.row]];
+    }else{
+        
         cell.detailTextLabel.text = _detailNames[indexPath.row];
-    
+    }
     
     return cell;
 }

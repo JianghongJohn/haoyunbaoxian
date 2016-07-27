@@ -10,11 +10,16 @@
 #import "JH_DIYsearchBar.h"
 #import "InviterListCell.h"
 #import "InviterVC.h"
+#import "InviterModel.h"
 @interface InviterListVC ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 {
     UITableView *_tableView;
     JH_DIYsearchBar*_searchBar;
     UIButton *_searchButton;
+    NSMutableArray *_inviterArray;
+    
+    NSInteger _page;
+    NSString *_inviterName;
 }
 
 @end
@@ -26,8 +31,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"搜索邀请人";
+    _page = 1;
+    _inviterName = @"";
+    
+    [self _loadDataWithPage:@"1" WithRows:@"10" ByKey:_inviterName];
     
     [self _creatSearchBar];
+    
     [self _creatTableView];
 }
 /**
@@ -41,7 +51,13 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     
-    
+    _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _page = 1;
+        [self _loadDataWithPage:@"1" WithRows:@"10" ByKey:_inviterName];
+    }];
+    _tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+       [self _loadDataWithPage:[NSString stringWithFormat:@"%li",++_page] WithRows:@"10" ByKey:_inviterName];
+    }];
 }
 /**
  *  搜索控件
@@ -60,8 +76,6 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar;{
     //清空输入文字
-    
-    searchBar.text = nil;
     
     _searchBar.showsCancelButton = YES;
     for (UIView *subview in _searchBar.subviews) {
@@ -87,6 +101,7 @@
 }// called when text ends editing
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText;{
+    _inviterName = searchBar.text;
     //判断文字是否
     if (searchBar.text.length==0) {
         [_searchButton setTitle:@"取消" forState:0];
@@ -99,9 +114,10 @@
     
 }// called when text changes (including clear)
 
-//- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;  {
-//
-//}// called when keyboard search button pressed
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;  {
+    [self _loadDataWithPage:@"1" WithRows:@"10" ByKey:_inviterName];
+
+}// called when keyboard search button pressed
 //- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar __TVOS_PROHIBITED;{
 //
 //}// called when bookmark button pressed
@@ -111,21 +127,91 @@
         NSLog(@"取消");
     }else{
         NSLog(@"搜索");
+        
+        [self _loadDataWithPage:@"1" WithRows:@"10" ByKey:_inviterName];
     }
 }// called when cancel
-
+#pragma mark - 邀请人搜索
+-(void)_loadDataWithPage:(NSString *)page WithRows:(NSString *)rows ByKey:(NSString *)key{
+    /**
+     *  获取数据
+     */
+    if (_inviterArray==nil||[page isEqualToString:@"1"]) {
+        _page = 1;
+        _inviterArray = [NSMutableArray array];
+        
+    }
+    
+    NSString *urlString1 = @"getUserList.json";
+    NSDictionary *parameters1 =  @{
+                                   @"nameOrMobile": key,
+                                   @"page": page,
+                                   @"rows": rows
+                                   };
+    //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
+    NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
+    NSLog(@"jsonStr:%@",jsonStr);
+    NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
+    
+    [JH_NetWorking requestData:urlString1 HTTPMethod:@"GET" params:[params mutableCopy] completionHandle:^(id result) {
+        NSDictionary *dic = result;
+        NSNumber *isSuccess = dic[@"success"];
+        //判断是否成功
+        if ([isSuccess isEqual:@1]) {
+            //停止头部刷新
+            if (_page==1) {
+                [_tableView.mj_header endRefreshing];
+            }else{
+                  [_tableView.mj_footer endRefreshing];
+            }
+            NSDictionary *data = dic[@"data"];
+            NSArray *results = data[@"results"];
+            if (results.count!=0) {
+                
+                for (NSDictionary *dic in results) {
+                    InviterModel *model = [InviterModel mj_objectWithKeyValues:dic];
+                    
+                    [_inviterArray addObject:model];
+                    //刷新数据
+                    [_tableView reloadData];
+                }
+              
+            }else{
+                
+                [_tableView.mj_footer endRefreshingWithNoMoreData];
+                
+            }
+            /**
+             *  关闭进度条
+             */
+            [SVProgressHUD dismiss];
+   
+        }else{
+            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+            
+            
+        }
+        
+        
+    } errorHandle:^(NSError *error) {
+        
+    }];
+    
+    
+}
 
 
 
 #pragma mark - tableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 {
-    return 5;
+    return _inviterArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     InviterListCell *inviterListCell = [[[NSBundle mainBundle]loadNibNamed:@"InviterListCell" owner:self options:nil]firstObject];
+    inviterListCell.model = _inviterArray[indexPath.row];
     return inviterListCell;
 }
 
@@ -138,7 +224,12 @@
 
 #pragma mark - 选中事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    InviterModel *model = _inviterArray[indexPath.row];
+    
     InviterVC *inviter = [[InviterVC alloc] init];
+    
+    inviter.model = model;
+    
     [self _pushViewController:inviter];
 }
 

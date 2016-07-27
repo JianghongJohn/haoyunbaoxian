@@ -87,6 +87,7 @@
     [self _pushViewController:city];
     //获取城市数据
     NSDictionary *province = _areaData[indexPath.row];
+    NSString *provinceName = province[@"province"];
     //城市
     NSArray *citys = province[@"cities"];
     //城市名称
@@ -104,7 +105,7 @@
     
     city.citys = allCitys;
     city.city_codes = city_code;
-    
+    city.provinceName = provinceName;
     
     
 //    city.citys = cityData;

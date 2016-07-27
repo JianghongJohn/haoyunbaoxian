@@ -9,5 +9,7 @@
 #import "BaseVC.h"
 
 @interface NickNameVC : BaseVC
-
+typedef void(^NickNameBlock)(NSString *);
+@property(nonatomic,copy)NSString *nickname;
+@property(nonatomic,copy)NickNameBlock nicknameBlock;
 @end

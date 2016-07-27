@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "InviterModel.h"
 @interface InviterListCell : UITableViewCell
-
+@property (weak, nonatomic) IBOutlet UIImageView *headImageView;
+@property (weak, nonatomic) IBOutlet UILabel *name;
+@property (weak, nonatomic) IBOutlet UILabel *mobileNo;
+@property(nonatomic,strong)InviterModel *model;
 @end

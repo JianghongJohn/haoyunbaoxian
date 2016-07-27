@@ -51,6 +51,51 @@
     NSLog(@"选择城市:%@",cityKey);
     NSString *citycode = self.city_codes[indexPath.row];
     NSLog(@"选择城市:%@",citycode);
+    /**
+     *  获取数据
+     */
+    
+    NSString *urlString1 = @"updateUserInfo.json";
+    NSDictionary *parameters1 =  @{
+                                   @"cityCode":citycode
+                                   };
+    //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
+    NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
+    NSLog(@"jsonStr:%@",jsonStr);
+    NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
+    
+    [JH_NetWorking requestData:urlString1 HTTPMethod:@"GET" params:[params mutableCopy] completionHandle:^(id result) {
+        NSDictionary *dic = result;
+        NSNumber *isSuccess = dic[@"success"];
+        //判断是否成功
+        if ([isSuccess isEqual:@1]) {
+            //发送通知给
+            [[NSNotificationCenter defaultCenter]postNotificationName:JH_UserCityChange object:nil userInfo:@{@"city_code":citycode}];
+            
+            //pop到我的资料页面
+           UIViewController *VC = [self.navigationController.viewControllers objectAtIndex:1];
+            
+            [self.navigationController popToViewController:VC animated:YES];
+            
+            /**
+             *  关闭进度条
+             */
+            [SVProgressHUD dismiss];
+            
+            
+            
+        }else{
+            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+            
+            
+        }
+        
+        
+    } errorHandle:^(NSError *error) {
+        
+    }];
+    
+ 
     
 }
 - (void)didReceiveMemoryWarning {

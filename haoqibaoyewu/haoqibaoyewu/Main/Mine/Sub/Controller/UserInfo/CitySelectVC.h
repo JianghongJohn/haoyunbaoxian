@@ -11,4 +11,5 @@
 @interface CitySelectVC : BaseVC
 @property(nonatomic,strong )NSArray *citys;
 @property(nonatomic,strong )NSArray *city_codes;
+@property(nonatomic,copy)NSString *provinceName;
 @end

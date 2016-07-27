@@ -7,7 +7,8 @@
 //
 
 #import "BaseVC.h"
-
+#import "UserInfoModel.h"
 @interface UserInfoVC : BaseVC
-@property(nonatomic,copy)NSDictionary *userInfo;
+
+@property(nonatomic,strong)UserInfoModel *userModel;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "BaseVC.h"
-
+#import "InviterModel.h"
 @interface InviterVC : BaseVC
-
+@property(nonatomic,strong)InviterModel *model;
 @end

@@ -331,7 +331,10 @@
      */
     if (indexPath.section==0) {
         UserInfoVC *user = [[UserInfoVC alloc] init];
-        user.userInfo = _userInfo;
+        
+        UserInfoModel *model = [UserInfoModel mj_objectWithKeyValues:_userInfo];
+        user.userModel = model;
+        
         [self _pushViewController:user];
        
     }

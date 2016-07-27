@@ -35,6 +35,7 @@
  /**
    *  开启进度条
    */
+ 
 
     [SVProgressHUD show];
     //GET和POST分别处理

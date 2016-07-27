@@ -14,7 +14,7 @@
 #import "NickNameVC.h"
 #import "AddressVC.h"
 #import "CheckPhoneVC.h"
-
+#import "NSString+JH_CityName_Code_Change.h"
 @interface UserInfoVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_tableView;
@@ -23,6 +23,7 @@
     
     NSString *_imageUrl;
    
+    
 }
 @end
 /**
@@ -79,34 +80,39 @@
  */
 -(void)_makeData{
     
-    if (_userInfo!=nil) {
+    if (_userModel!=nil) {
         
         //获取头像
-        _imageUrl = _userInfo[@"headUrl"];
-        
+        _imageUrl = _userModel.headUrl;
+    
+        NSString *city = _userModel.cityCode;
+
+        city = [NSString CodeNameToName:city];
+                                   
         NSString *isAuthentication;
         
         //处理用户状态
-        if ([_userInfo[@"state"]isEqualToString:@"00"]) {
+        if ([_userModel.state isEqualToString:@"00"]) {
             isAuthentication = @"未认证";
-        }else if ([_userInfo[@"state"]isEqualToString:@"01"]){
+        }else if ([_userModel.state isEqualToString:@"01"]){
             isAuthentication = @"已认证";
         }else{
             isAuthentication = @"已注销";
         }
         //处理微信绑定
         NSString *isOpenId;
-        if (_userInfo[@"openId"]==nil) {
+        if (_userModel.openId == nil) {
             isOpenId = @"未绑定";
         }else{
             isOpenId = @"已绑定";
         }
         
         
-        _detailNames = @[@"",_userInfo[@"nickName"],_userInfo[@"cityCode"],_userInfo[@"inviterName"],isAuthentication,_userInfo[@"mobileNo"],isOpenId];
+        _detailNames = @[@"",_userModel.nickName,city,_userModel.inviterName,isAuthentication,_userModel.mobileNo,isOpenId];
     }
     _titleNames = @[@"头像",@"昵称",@"所在城市",@"邀请人",@"实名认证",@"手机号",@"微信绑定"];
-    
+ 
+    [_tableView reloadData];
 }
 
 #pragma mark - tableViewDataSource
@@ -188,21 +194,44 @@
     }
     if (indexPath.section==0&&indexPath.row==3) {//我的邀请人
         MyInviterVC *inviter = [[MyInviterVC alloc] init];
-       
+        
+        inviter.inviterId = _userModel.inviterId;
+        //接收邀请人改变的通知
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(_changeUserInviter:) name:JH_UserInviterChange object:nil];
+        
         [self _pushViewController:inviter];
     }
     if (indexPath.section==0&&indexPath.row==0) {//我的头像
          MyHeadPortrait *head = [[MyHeadPortrait alloc] init];
-       
+        
+        head.imageUrl = _imageUrl;
+        //获取新的头像地址
+        [head setImageBlock:^(NSString *imageUrl){
+            _imageUrl = imageUrl;
+            [_tableView reloadData];
+            
+        }];
         [self _pushViewController:head];
     }
     if (indexPath.section==0&&indexPath.row==1) {//昵称
         NickNameVC *nickName = [[NickNameVC alloc] init];
+        
+        nickName.nickname = _userModel.nickName;
+        //获取新的昵称
+        [nickName setNicknameBlock:^(NSString *newNickname){
+            
+            self.userModel.nickName = newNickname;
+            [self _makeData];
+            
+        }];
+        
         [self _pushViewController:nickName];
     }
     if (indexPath.section==0&&indexPath.row==2) {//城市
         AddressVC *address = [[AddressVC alloc] init];
         [self _pushViewController:address];
+        //通知获取新的地址
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(_changeUserCity:) name:JH_UserCityChange object:nil];
     }
     if (indexPath.section==1&&indexPath.row==0) {//手机号
         CheckPhoneVC *phone = [[CheckPhoneVC alloc] init];
@@ -210,7 +239,26 @@
     }
     
 }
-
+//通知方法
+-(void)_changeUserCity:(NSNotification *)notifi{
+    NSString *city = notifi.userInfo[@"city_code"];
+    _userModel.cityCode = city;
+    
+    [self _makeData];
+}
+-(void)_changeUserInviter:(NSNotification *)notifi{
+    NSString *inviteName = notifi.userInfo[@"inviteName"];
+    NSNumber *inviteId = notifi.userInfo[@"inviteId"];
+    _userModel.inviterName = inviteName;
+    _userModel.inviterId = [inviteId integerValue];
+    [self _makeData];
+}
+/**
+ *  移除通知
+ */
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

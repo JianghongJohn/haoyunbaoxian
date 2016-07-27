@@ -20,4 +20,7 @@
 //通知
 #define JH_TokenExpired @"JH_TokenExpired"
 #define JH_TurnToVideoById @"JH_TurnToVideoById"
+#define JH_UserCityChange @"JH_UserCityChange"
+#define JH_UserInviterChange @"JH_UserInviterChange"
+
 #endif /* CommonHeader_h */

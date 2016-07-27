@@ -49,18 +49,81 @@
     bottomButton.backgroundColor = [UIColor redColor];
     [bottomButton setTitle:@"加入" forState:UIControlStateNormal];
     [bottomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [bottomButton addTarget:self action:@selector(_joinAction) forControlEvents:UIControlEventTouchUpInside];
+    
     bottomButton.layer.cornerRadius = 5;
     [bottomView addSubview:bottomButton];
     
     _tableView.tableFooterView = bottomView;
 }
+-(void)_joinAction{
+    /**
+     *  获取数据
+     */
+    
+    NSString *urlString1 = @"updateInviter.json";
+    NSDictionary *parameters1 =  @{
+                                   @"inviterId": @(_model.userId),
+                                   @"inviterName": _model.name,
+                                   };
+    //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
+    NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
+    NSLog(@"jsonStr:%@",jsonStr);
+    NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
+    
+    [JH_NetWorking requestData:urlString1 HTTPMethod:@"GET" params:[params mutableCopy] completionHandle:^(id result) {
+        NSDictionary *dic = result;
+        NSNumber *isSuccess = dic[@"success"];
+        //判断是否成功
+        if ([isSuccess isEqual:@1]) {
+            
+            //发送通知
+            //发送通知给
+            [[NSNotificationCenter defaultCenter]postNotificationName:JH_UserCityChange object:nil userInfo:@{@"inviteName":_model.name,@"inviteId":@(_model.userId)}];
+            /**
+             *  关闭进度条
+             */
+            [SVProgressHUD showSuccessWithStatus:@"加入成功"];
+            UIViewController *VC = [self.navigationController.viewControllers objectAtIndex:1];
+            
+            [self.navigationController popToViewController:VC animated:YES];
+       
+      
+        }else{
+            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+            
+            
+        }
+        
+        
+    } errorHandle:^(NSError *error) {
+        
+    }];
+}
+
+
 //创建内部的一些视图
 
 /**
  *  处理数据
  */
 -(void)_makeData{
-    _detailNames = @[@"追梦赤子",@"江红",@"15757166458",@"1",@"￥520.00"];
+    //数据验证
+    if (_model.nickName==nil) {
+        _model.nickName = @"";
+    }
+    if (_model.name==nil) {
+        _model.name = @"";
+    }
+    if (_model.mobileNo==nil) {
+        _model.mobileNo = @"";
+    }
+    if (_model.premium==nil) {
+        _model.premium = @"0";
+    }
+    
+    
+    _detailNames = @[_model.nickName,_model.name,_model.mobileNo,_model.premium,[NSString stringWithFormat:@"%li",_model.policyCount]];
     _titleNames = @[@"",@"真实姓名",@"手机号",@"总保费",@"总保单"];
 
 }
@@ -85,12 +148,17 @@
     //添加头像
     if (indexPath.row==0) {
         
-        cell.imageView.image = [UIImage imageCompressWithSimple:[UIImage LoadImageFromBundle:@"20 4.jpg"] scaledToSize:CGSizeMake(50, 50)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 50, 50)];
+        
+        
+        [imageView sd_setImageWithURL:[NSURL URLWithString:_model.headUrl] placeholderImage:[UIImage LoadImageFromBundle:JH_BaseImage]];
+        
         //未实现缩放
 //         cell.imageView.transform = CGAffineTransformMakeScale(0.7, 0.7);
-        cell.imageView.layer.cornerRadius = 25;
-        cell.imageView.layer.masksToBounds = YES;
-
+        imageView.layer.cornerRadius = 25;
+        imageView.layer.masksToBounds = YES;
+        
+        [cell.contentView addSubview:imageView];
     }
     
     return cell;

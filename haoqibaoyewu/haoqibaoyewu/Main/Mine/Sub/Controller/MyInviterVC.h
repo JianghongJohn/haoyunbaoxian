@@ -9,5 +9,5 @@
 #import "BaseVC.h"
 
 @interface MyInviterVC : BaseVC
-
+@property(nonatomic,assign)NSInteger inviterId;
 @end

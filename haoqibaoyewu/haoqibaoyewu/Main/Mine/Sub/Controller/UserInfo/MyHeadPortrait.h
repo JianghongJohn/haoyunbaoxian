@@ -7,7 +7,8 @@
 //
 
 #import "BaseVC.h"
-
+typedef void(^ImageBlock)(NSString *);
 @interface MyHeadPortrait : BaseVC
-
+@property(nonatomic,copy)NSString *imageUrl;
+@property(nonatomic,copy)ImageBlock imageBlock;
 @end

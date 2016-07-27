@@ -4,7 +4,7 @@
         "cities": [
             {
                 "city": "北京市",
-                "city_code": "110000"
+                "city_code": "110100"
             }
         ],
         "province_code": "11000"
@@ -14,7 +14,7 @@
         "cities": [
             {
                 "city": "天津市",
-                "city_code": "120000"
+                "city_code": "120100"
             }
         ],
         "province_code": "12000"
@@ -340,7 +340,7 @@
         "cities": [
             {
                 "city": "上海市",
-                "city_code": "310000"
+                "city_code": "310100"
             }
         ],
         "province_code": "31000"
@@ -1058,7 +1058,7 @@
         "cities": [
             {
                 "city": "重庆市",
-                "city_code": "500000"
+                "city_code": "500100"
             },
             {
                 "city": "万州市",

@@ -91,6 +91,11 @@
         //判断是否成功
         if ([isSuccess isEqual:@1]) {
             NSArray *data = dic[@"results"];
+            if (_page==1) {
+                [_tableView.mj_header endRefreshing];
+            }else{
+                [_tableView.mj_footer endRefreshing];
+            }
             if (data.count!=0) {
                 
                 for (NSDictionary *news in data) {
@@ -104,9 +109,7 @@
             }else{
                 [_tableView.mj_footer endRefreshingWithNoMoreData];
             }
-            if (_page==1) {
-                [_tableView.mj_header endRefreshing];
-            }
+            
             /**
              *  关闭进度条
              */

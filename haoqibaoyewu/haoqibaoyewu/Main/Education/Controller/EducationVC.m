@@ -192,9 +192,9 @@
     
 }// called when text changes (including clear)
 
-//- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;  {
-//    
-//}// called when keyboard search button pressed
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;  {
+ [self _loadDataWithPage:@"1" rows:@"10" byVideoName:_videoName];
+}// called when keyboard search button pressed
 //- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar __TVOS_PROHIBITED;{
 //    
 //}// called when bookmark button pressed
@@ -238,6 +238,8 @@
             //停止头部刷新
             if (_page==1) {
                 [_tableView.mj_header endRefreshing];
+            }else{
+                [_tableView.mj_footer endRefreshing];
             }
             if (data.count==0) {//停止尾部刷新
                 [_tableView.mj_footer endRefreshingWithNoMoreData];

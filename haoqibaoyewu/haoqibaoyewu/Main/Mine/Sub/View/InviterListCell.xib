@@ -58,6 +58,11 @@
                     <constraint firstItem="8X5-O5-dej" firstAttribute="leading" secondItem="5E9-Qo-vSm" secondAttribute="trailing" constant="10" id="kWr-FO-zk3"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="headImageView" destination="5E9-Qo-vSm" id="Bwo-eQ-cmY"/>
+                <outlet property="mobileNo" destination="8X5-O5-dej" id="Z8K-Z4-Ji9"/>
+                <outlet property="name" destination="eSY-cs-eOF" id="xGP-4l-m6p"/>
+            </connections>
             <point key="canvasLocation" x="280" y="204"/>
         </tableViewCell>
     </objects>

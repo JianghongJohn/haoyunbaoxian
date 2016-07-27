@@ -8,7 +8,7 @@
 
 #import "MyHeadPortrait.h"
 
-@interface MyHeadPortrait ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface MyHeadPortrait ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate>
 {
     UIImageView *_headImageView;
 }
@@ -33,7 +33,7 @@
         [self.view addSubview:_headImageView];
         _headImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
-    _headImageView.image = [UIImage LoadImageFromBundle:@"p0.jpg"];
+    [_headImageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:[UIImage LoadImageFromBundle:@"p0.jpg"]];
     
     
 }
@@ -107,14 +107,86 @@
     UIImage *editedImg = info[UIImagePickerControllerEditedImage];
     
     _headImageView.image = editedImg;
-    //拿到图片
-    NSString *path_sandox = NSHomeDirectory();
-    //设置一个图片的存储路径
-    NSString *imagePath = [path_sandox stringByAppendingString:@"/Documents/head.png"];
-    //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
-    [UIImagePNGRepresentation(editedImg) writeToFile:imagePath atomically:YES];
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"头像修改" message:@"确认使用该头像" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.delegate = self;
+    [alert show];
+}
+#pragma mark - alertDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex==1) {
+        //拿到图片
+        NSString *path_sandox = NSHomeDirectory();
+        //设置一个图片的存储路径
+        NSString *imagePath = [path_sandox stringByAppendingString:@"/Documents/head.png"];
+        //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
+        [UIImagePNGRepresentation(_headImageView.image) writeToFile:imagePath atomically:YES];
+        
+        [self uploadImageWithPath:imagePath];
+        
+    }else {
+            [_headImageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:[UIImage LoadImageFromBundle:@"p0.jpg"]];
+    }
+    
+}
+
+-(void)uploadImageWithPath:(NSString *)path{
+    
+    /**
+     *  获取数据
+     */
+    AFHTTPSessionManager *session=[AFHTTPSessionManager manager];
+    
+    [session.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept" ];
+    //    [manager.requestSerializer setValue:@"application/json; charset=gb2312" forHTTPHeaderField:@"Content-Type" ];
+    ;
+    NSString *token = [[NSUserDefaults standardUserDefaults]objectForKey:JH_Token];
+    /**
+     *  添加token
+     */
+    [session.requestSerializer setValue: token forHTTPHeaderField:@"token" ];
+    //
+    
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json",@"text/html", @"text/plain",nil];
+    
+    [session POST:@"http://114.55.157.62:8082/bcis/api/m/headImgUpload.json" parameters:@{} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+        NSURL *url=[NSURL fileURLWithPath:path];
+        
+        [formData appendPartWithFileURL:url name:@"file" fileName:@"image.jpg" mimeType:@"image/jpeg" error:nil];
+        
+        
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+//        NSLog(@"%f",uploadProgress.fractionCompleted);
+        
+        [SVProgressHUD showProgress:uploadProgress.fractionCompleted];
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"%@",responseObject);
+        NSDictionary *dic = responseObject;
+        NSNumber *isSuccess = dic[@"success"];
+        //判断是否成功
+        if ([isSuccess isEqual:@1]) {
+            NSString *data = dic[@"data"];
+            _imageBlock(data);
+            [SVProgressHUD showSuccessWithStatus:@"上传完成"];
+        }else{
+            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+            
+            [_headImageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:[UIImage LoadImageFromBundle:@"p0.jpg"]];
+        }
+       
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [_headImageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:[UIImage LoadImageFromBundle:@"p0.jpg"]];
+        
+        [SVProgressHUD dismiss];
+    }];
+    
+
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker;
