@@ -102,6 +102,7 @@
 		A9E5D18C1D37975B0017B086 /* JH_RankStarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E5D18B1D37975B0017B086 /* JH_RankStarView.m */; };
 		A9E5D19D1D37B55F0017B086 /* TeamMemberVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E5D19C1D37B55F0017B086 /* TeamMemberVC.m */; };
 		A9E5D1A01D37BF6B0017B086 /* TeamMemberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E5D19F1D37BF6B0017B086 /* TeamMemberModel.m */; };
+		A9F765861D49E6E300E2AD62 /* CheckNewMobileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F765851D49E6E300E2AD62 /* CheckNewMobileVC.m */; };
 		A9FDBC251D47323300ED12F8 /* SquareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDBC241D47323300ED12F8 /* SquareModel.m */; };
 		A9FDBC281D47440000ED12F8 /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDBC271D47440000ED12F8 /* UserInfoModel.m */; };
 		A9FDBC2D1D47685100ED12F8 /* citycode.json in Resources */ = {isa = PBXBuildFile; fileRef = A9FDBC2C1D47685100ED12F8 /* citycode.json */; };
@@ -305,6 +306,8 @@
 		A9E5D19C1D37B55F0017B086 /* TeamMemberVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamMemberVC.m; sourceTree = "<group>"; };
 		A9E5D19E1D37BF6B0017B086 /* TeamMemberModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamMemberModel.h; sourceTree = "<group>"; };
 		A9E5D19F1D37BF6B0017B086 /* TeamMemberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamMemberModel.m; sourceTree = "<group>"; };
+		A9F765841D49E6E300E2AD62 /* CheckNewMobileVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckNewMobileVC.h; sourceTree = "<group>"; };
+		A9F765851D49E6E300E2AD62 /* CheckNewMobileVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckNewMobileVC.m; sourceTree = "<group>"; };
 		A9FDBC231D47323300ED12F8 /* SquareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SquareModel.h; sourceTree = "<group>"; };
 		A9FDBC241D47323300ED12F8 /* SquareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SquareModel.m; sourceTree = "<group>"; };
 		A9FDBC261D47440000ED12F8 /* UserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
@@ -690,6 +693,8 @@
 				A906E9211D3D08AC00926089 /* CitySelectVC.m */,
 				A93B6C4D1D3E262500B9E10F /* CheckPhoneVC.h */,
 				A93B6C4E1D3E262500B9E10F /* CheckPhoneVC.m */,
+				A9F765841D49E6E300E2AD62 /* CheckNewMobileVC.h */,
+				A9F765851D49E6E300E2AD62 /* CheckNewMobileVC.m */,
 			);
 			path = UserInfo;
 			sourceTree = "<group>";
@@ -1056,6 +1061,7 @@
 				A9E5D1301D373DD20017B086 /* MyTaskVC.m in Sources */,
 				A9086D4A1D35EB0100DCF3DA /* BonusView.m in Sources */,
 				0D169B911D2BAC2600F94E21 /* UIViewExt.m in Sources */,
+				A9F765861D49E6E300E2AD62 /* CheckNewMobileVC.m in Sources */,
 				A93B6C491D3DDC1100B9E10F /* JH_Util.m in Sources */,
 				0D169B761D2B911300F94E21 /* BaseTabBarVC.m in Sources */,
 				A93BD88C1D41BF69006AA2D8 /* NSDictionary+ToJson.m in Sources */,

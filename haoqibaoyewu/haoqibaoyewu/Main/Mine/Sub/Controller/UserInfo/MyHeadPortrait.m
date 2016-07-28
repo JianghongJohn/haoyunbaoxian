@@ -163,27 +163,41 @@
 //        NSLog(@"%f",uploadProgress.fractionCompleted);
         
         [SVProgressHUD showProgress:uploadProgress.fractionCompleted];
+        if (uploadProgress.fractionCompleted==1.0) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                
+                [SVProgressHUD dismiss];
+            });
+        }
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSLog(@"%@",responseObject);
         NSDictionary *dic = responseObject;
         NSNumber *isSuccess = dic[@"success"];
-        //判断是否成功
-        if ([isSuccess isEqual:@1]) {
-            NSString *data = dic[@"data"];
-            _imageBlock(data);
-            [SVProgressHUD showSuccessWithStatus:@"上传完成"];
-        }else{
-            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+        //回到主线程
+        dispatch_sync(dispatch_get_main_queue(), ^{
             
-            [_headImageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:[UIImage LoadImageFromBundle:@"p0.jpg"]];
-        }
+          
+            //判断是否成功
+            if ([isSuccess isEqual:@1]) {
+                NSString *data = dic[@"data"];
+                _imageBlock(data);
+                [SVProgressHUD showSuccessWithStatus:@"上传完成"];
+            }else{
+                [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+                
+                [_headImageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:[UIImage LoadImageFromBundle:@"p0.jpg"]];
+            }
+        });
        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [_headImageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:[UIImage LoadImageFromBundle:@"p0.jpg"]];
-        
-        [SVProgressHUD dismiss];
+       dispatch_sync(dispatch_get_main_queue(), ^{
+           
+           [_headImageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:[UIImage LoadImageFromBundle:@"p0.jpg"]];
+           
+           [SVProgressHUD dismiss];
+       });
     }];
     
 

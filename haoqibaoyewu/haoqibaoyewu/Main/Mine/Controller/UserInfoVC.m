@@ -15,6 +15,7 @@
 #import "AddressVC.h"
 #import "CheckPhoneVC.h"
 #import "NSString+JH_CityName_Code_Change.h"
+#import "LoginVC.h"
 @interface UserInfoVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_tableView;
@@ -64,10 +65,37 @@
     bottomButton.backgroundColor = [UIColor redColor];
     [bottomButton setTitle:@"退出登录" forState:UIControlStateNormal];
     [bottomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [bottomButton addTarget:self action:@selector(logoutAction) forControlEvents:UIControlEventTouchUpInside];
     bottomButton.layer.cornerRadius = 5;
     [bottomView addSubview:bottomButton];
     
     _tableView.tableFooterView = bottomView;
+}
+/**
+ *  退出请求
+ */
+-(void)logoutAction{
+    //移除相对应的数据
+    
+    //token//openId//userId//UserPhone
+    
+    [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_Token];
+    [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_OpenId];
+    
+    [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_UserId];
+    
+    [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_UserPhone];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    //presentLoginVC
+    LoginVC *login = [[LoginVC alloc] init];
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:login];
+    
+    [self presentViewController:navigation animated:YES completion:^{
+        
+    }];
+    
+    
 }
 //创建内部的一些视图
 -(void)_creatSubViews{
@@ -248,6 +276,8 @@
     if (indexPath.section==1&&indexPath.row==0) {//手机号
         CheckPhoneVC *phone = [[CheckPhoneVC alloc] init];
         [self _pushViewController:phone];
+        //通知获取新的手机号
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(_changeUserMobile:) name:JH_UserMobileChange object:nil];
     }
     
 }
@@ -263,6 +293,12 @@
     NSNumber *inviteId = notifi.userInfo[@"inviteId"];
     _userModel.inviterName = inviteName;
     _userModel.inviterId = [inviteId integerValue];
+    [self _makeData];
+}
+-(void)_changeUserMobile:(NSNotification *)notifi{
+    NSString *mobileNo = notifi.userInfo[@"mobileNo"];
+    _userModel.mobileNo = mobileNo;
+    
     [self _makeData];
 }
 /**

@@ -51,12 +51,12 @@
 //处理token过期的情况
             if ([errorCode isEqual:@300]) {
                 NSLog(@"登陆过期");
-                //打开
+                //线程加锁，防止其他线程调用方法
                 //发送通知
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
+#warning 此处添加一个标志，用于线程保护
+ 
                     [[NSNotificationCenter defaultCenter]postNotificationName:JH_TokenExpired object:nil userInfo:nil];
-                });
+   
             }
             
             completionblock(responseObject);
@@ -81,6 +81,20 @@
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             NSLog(@"成功%@",responseObject);
             
+            NSDictionary *result = responseObject;
+            
+            NSNumber *errorCode = result[@"errorCode"];
+            
+            //处理token过期的情况
+            if ([errorCode isEqual:@300]) {
+                NSLog(@"登陆过期");
+                //线程加锁，防止其他线程调用方法
+                //发送通知
+#warning 此处是否应该添加一个标志，用于线程保护
+                
+                [[NSNotificationCenter defaultCenter]postNotificationName:JH_TokenExpired object:nil userInfo:nil];
+                
+            }
             completionblock(responseObject);
             
             

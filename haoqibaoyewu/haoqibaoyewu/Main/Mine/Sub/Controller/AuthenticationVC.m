@@ -14,6 +14,8 @@
     UIImageView *_frontView;
     UIImageView *_backView;
     NSInteger _imageSelectedIndex;
+    BOOL _front;
+    BOOL _verso;
 }
 @end
 
@@ -50,12 +52,118 @@
     bottomButton.backgroundColor = [UIColor redColor];
     [bottomButton setTitle:@"提交" forState:UIControlStateNormal];
     [bottomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [bottomButton addTarget:self action:@selector(_postImage) forControlEvents:UIControlEventTouchUpInside];
     bottomButton.layer.cornerRadius = 5;
     [bottomView addSubview:bottomButton];
     
     _tableView.tableFooterView = bottomView;
 }
-
+-(void)_postImage{
+    //获取tableViewCell
+    UITableViewCell *nameCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    UITextField *name = [nameCell.contentView viewWithTag:100];
+    //获取tableViewCell
+    UITableViewCell *IDCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    UITextField *ID = [IDCell.contentView viewWithTag:101];
+    
+    
+    if (_front&&_verso&&[JH_Util checkUserIdCard:ID.text]&&name.text.length>=2) {
+        
+        /**
+         *  获取数据
+         */
+        AFHTTPSessionManager *session=[AFHTTPSessionManager manager];
+        
+        [session.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept" ];
+        //    [manager.requestSerializer setValue:@"application/json; charset=gb2312" forHTTPHeaderField:@"Content-Type" ];
+        ;
+        NSString *token = [[NSUserDefaults standardUserDefaults]objectForKey:JH_Token];
+        /**
+         *  添加token
+         */
+        [session.requestSerializer setValue: token forHTTPHeaderField:@"token" ];
+        //
+        NSDictionary *parameters1 =  @{
+                                       @"name":name.text,
+                                       @"idNumber":ID.text
+                                       
+                                       };
+        //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
+        NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
+        NSLog(@"jsonStr:%@",jsonStr);
+        NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
+        
+        session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json",@"text/html", @"text/plain",nil];
+        
+        [session POST:@"http://114.55.157.62:8082/bcis/api/m/updateIdCard.json" parameters:params
+         constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+            //拿到图片
+            NSString *path_sandox = NSHomeDirectory();
+            //设置一个图片的存储路径
+            NSString *imagePath = [path_sandox stringByAppendingString:@"/Documents/front.png"];
+            
+            NSURL *url=[NSURL fileURLWithPath:imagePath];
+            
+            [formData appendPartWithFileURL:url name:@"frontIdCard" fileName:@"front.jpg" mimeType:@"image/jpeg" error:nil];
+//
+            //拿到图片
+            NSString *path_sandox2 = NSHomeDirectory();
+            //设置一个图片的存储路径
+            NSString *imagePath2 = [path_sandox2 stringByAppendingString:@"/Documents/verso.png"];
+            
+            NSURL *url2=[NSURL fileURLWithPath:imagePath2];
+            
+            [formData appendPartWithFileURL:url2 name:@"versoIdCard" fileName:@"verso.jpg" mimeType:@"image/jpeg" error:nil];
+            
+            
+        } progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+            //        NSLog(@"%f",uploadProgress.fractionCompleted);
+            
+            [SVProgressHUD showProgress:uploadProgress.fractionCompleted];
+            if (uploadProgress.fractionCompleted==1.0) {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    
+                    [SVProgressHUD dismiss];
+                });
+            }
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            NSLog(@"%@",responseObject);
+            NSDictionary *dic = responseObject;
+            NSNumber *isSuccess = dic[@"success"];
+            
+            //回到主线程
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                
+                //判断是否成功
+                if ([isSuccess isEqual:@1]) {
+                    
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"上传完成"];
+                }else{
+                    [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+                    
+                    
+                }
+            });
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                
+                [SVProgressHUD dismiss];
+            });
+            
+        }];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"输入错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        
+    }
+    
+    
+}
 
 #pragma mark - tableViewDataSource
 
@@ -75,14 +183,14 @@
     if (indexPath.row==0) {
         cell.textLabel.text = @"真实姓名";
         //添加textfield为取得文字，设置tag值
-        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(100, 5, 150, 40)];
+        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(100, 5, SCREENWIDTH-110, 40)];
         textField.placeholder = @"请输入真实姓名";
         textField.tag = 100;
         [cell.contentView addSubview:textField];
     }else if (indexPath.row==1){
         cell.textLabel.text = @"身份认证";
        //添加textfield为取得文字，设置tag值
-        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(100, 5, 150, 40)];
+        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(100, 5, SCREENWIDTH-110, 40)];
         textField.placeholder = @"请输入身份证号";
         textField.tag = 101;
         [cell.contentView addSubview:textField];
@@ -193,6 +301,7 @@
     UIImage *editedImg = info[UIImagePickerControllerEditedImage];
     if (_imageSelectedIndex==0) {
         _frontView.image = editedImg;
+        _front = YES;
         //拿到图片
         NSString *path_sandox = NSHomeDirectory();
         //设置一个图片的存储路径
@@ -203,10 +312,11 @@
         
     }else{
         _backView.image = editedImg;
+        _verso = YES;
         //拿到图片
         NSString *path_sandox = NSHomeDirectory();
         //设置一个图片的存储路径
-        NSString *imagePath = [path_sandox stringByAppendingString:@"/Documents/back.png"];
+        NSString *imagePath = [path_sandox stringByAppendingString:@"/Documents/verso.png"];
         //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
         [UIImagePNGRepresentation(editedImg) writeToFile:imagePath atomically:YES];
 

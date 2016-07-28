@@ -14,4 +14,6 @@
 #import "UIImage+ChangeToSize.h"
 #import "NSDictionary+ToJson.h"
 #import "NSDictionary+Log.h"
+#import "JH_Util.h"
+#import "JH_FileManager.h"
 #endif /* CategoryHeader_h */

@@ -264,12 +264,16 @@
         }else{
             [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
             
-            
+            [_tableView.mj_header endRefreshing];
+            [_tableView.mj_footer endRefreshing];
+
         }
         
         
     } errorHandle:^(NSError *error) {
-        
+        [_tableView.mj_header endRefreshing];
+        [_tableView.mj_footer endRefreshing];
+
     }];
 
 }

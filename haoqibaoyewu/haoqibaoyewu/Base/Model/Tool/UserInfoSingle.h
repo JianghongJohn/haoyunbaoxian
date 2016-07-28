@@ -21,4 +21,6 @@
 @property(nonatomic,copy)NSString *token;
 //token
 @property(nonatomic,copy)NSString *userId;
+
+@property(nonatomic,copy)NSString *openId;
 @end

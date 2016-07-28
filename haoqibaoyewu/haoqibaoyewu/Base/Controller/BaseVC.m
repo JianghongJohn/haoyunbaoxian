@@ -8,6 +8,7 @@
 
 #import "BaseVC.h"
 #import "LoginVC.h"
+#import "AppDelegate.h"
 @interface BaseVC ()
 
 @end
@@ -22,7 +23,11 @@
     bgImageView.backgroundColor = [UIColor colorWithWhite:0.93 alpha:1];
     bgImageView.userInteractionEnabled = YES;
     [self.view addSubview:bgImageView];
-    [self _receivedNotification];
+    
+    
+        
+        [self _receivedNotification];
+   
     
 }
 //push操作
@@ -33,10 +38,13 @@
     
     
 }
+
 /**
  *  添加通知的处理方式
  */
 -(void)_receivedNotification{
+    //移除相对应的数据
+
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginAction) name:JH_TokenExpired object:nil];
     
 }
@@ -44,12 +52,29 @@
  *  重新登陆
  */
 -(void)loginAction{
+    
+//    if ([[NSUserDefaults standardUserDefaults]objectForKey:JH_Token]!=nil) {
+    
     LoginVC *login = [[LoginVC alloc] init];
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:login];
-
-    [self.navigationController presentViewController:navigation animated:YES completion:^{
-        
-    }];
+    
+    
+    AppDelegate *appdelegate = APPDELEGATE;
+    
+    appdelegate.window.rootViewController = navigation;
+    
+        //token//openId//userId//UserPhone
+//        //
+//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_TokenOnce];
+//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_Token];
+//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_OpenId];
+//        
+//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_UserId];
+//        
+//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_UserPhone];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//    }
+   
     
 }
 -(void)dealloc{

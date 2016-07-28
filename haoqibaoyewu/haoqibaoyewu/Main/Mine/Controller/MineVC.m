@@ -48,7 +48,7 @@
     [self _creatTableView];
 }
 -(void)viewWillAppear:(BOOL)animated{
-#warning 此处存在两个任务同时刷新tableView的操作，需要做线程等待
+//#warning 此处存在两个任务同时刷新tableView的操作，需要做线程等待
 //    dispatch_group_t group = dispatch_group_create();
 //    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
 //    dispatch_group_async(group, queue, ^{

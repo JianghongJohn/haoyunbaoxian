@@ -53,6 +53,11 @@ static UserInfoSingle* _instance = nil;
     [[NSUserDefaults standardUserDefaults] synchronize];
     
 }
+-(void)setOpenId:(NSString *)openId{
+    [[NSUserDefaults standardUserDefaults]setObject:openId forKey:JH_OpenId];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 /**
  *  加载本地的信息，只有在token存在的时候才能够调用这个方法
  */
@@ -61,6 +66,7 @@ static UserInfoSingle* _instance = nil;
     _instance.userId = [[NSUserDefaults standardUserDefaults]objectForKey:JH_UserId];
     _instance.phoneNum = [[NSUserDefaults standardUserDefaults]objectForKey:JH_UserPhone];
     _instance.token = [[NSUserDefaults standardUserDefaults]objectForKey:JH_Token];
+    _instance.openId = [[NSUserDefaults standardUserDefaults]objectForKey:JH_OpenId];
 }
 
 @end

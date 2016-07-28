@@ -1,37 +1,28 @@
 //
-//  LoginVC.m
+//  CheckNewMobileVC.m
 //  haoqibaoyewu
 //
-//  Created by hyjt on 16/7/21.
+//  Created by hyjt on 16/7/28.
 //  Copyright © 2016年 jianghong. All rights reserved.
 //
 
-#import "LoginVC.h"
-#import "BaseTabBarVC.h"
-#import "AppDelegate.h"
-#import "UserInfoSingle.h"
-#import "WebViewController.h"
-@interface LoginVC ()<UITextFieldDelegate>
+#import "CheckNewMobileVC.h"
 
+@interface CheckNewMobileVC ()
 {
     UIButton *_checkNumButton;
     NSTimer *_timer;
     NSInteger _countDown;
     UITextField *_phoneText;
     UITextField *_checkText;
-    //登陆按钮，根据是否同意协议显示是否可以点击
-    UIButton *_submitButton;
-    UISwitch *_switch;
-    
 }
 @end
 
-@implementation LoginVC
-
+@implementation CheckNewMobileVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"登陆";
+    self.title = @"修改绑定手机";
     
     [self _creatTextView];
     
@@ -57,7 +48,6 @@
     [_checkNumButton addTarget:self action:@selector(_getCheckAction) forControlEvents:UIControlEventTouchUpInside];
     _checkNumButton.layer.cornerRadius = 5;
     _checkNumButton.titleLabel.font = SYSFONT12;
-    
     [_checkNumButton setTitleColor:[UIColor whiteColor] forState:0];
     [_checkNumButton setBackgroundColor:[UIColor redColor]];
     [textView addSubview:_checkNumButton];
@@ -65,8 +55,6 @@
     //手机号输入
     _phoneText = [[UITextField alloc] initWithFrame:CGRectMake(phoneLabel.right+10, 10, SCREENWIDTH-_checkNumButton.width-phoneLabel.width-40, 30)];
     _phoneText.placeholder = @"请输入手机号";
-    _phoneText.tag = 100;
-    _phoneText.delegate = self;
     [textView addSubview:_phoneText];
     
     //下划线
@@ -87,6 +75,7 @@
     [textView addSubview:_checkText];
     
     
+    
 }
 /**
  *  获取验证码倒计时
@@ -96,7 +85,7 @@
     if ([JH_Util checkTelNumber:_phoneText.text]) {
         
         //    注册
-        NSString *urlString1 = @"getCaptcha.json";
+        NSString *urlString1 = @"getNewMobileCaptcha.json";
         NSDictionary *parameters1 =  @{
                                        @"mobileNo":_phoneText.text
                                        };
@@ -146,9 +135,9 @@
     }else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入正确的手机号" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
-
+        
     }
-   
+    
     
 }
 -(void)_timerAction{
@@ -175,121 +164,90 @@
  *  创建电话的布局
  */
 -(void)_creatSecondView{
-    UIView *aggrementView = [[UIView alloc] initWithFrame:CGRectMake(0, 110+kTopBarHeight, SCREENWIDTH, 50)];
-    [self.view addSubview:aggrementView];
+    UIView *phoneView = [[UIView alloc] initWithFrame:CGRectMake(0, 110+kTopBarHeight, SCREENWIDTH, 50)];
+    [self.view addSubview:phoneView];
+    //两个带文字图片的button
+    UIButton *phoneCall = [[UIButton alloc] initWithFrame:CGRectMake(0, 10, SCREENWIDTH/2, 30)];
+    [phoneView addSubview:phoneCall];
+    [phoneCall setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [phoneCall setTitle:@"客服热线" forState:UIControlStateNormal];
+    [phoneCall setImage:UIIMAGE(@"客服热线") forState:UIControlStateNormal];
     
-    //UISwith
-    _switch = [[UISwitch alloc] initWithFrame:CGRectMake(10, 10, 30, 30)];
-    [aggrementView addSubview:_switch];
-    _switch.onTintColor = [UIColor redColor];
-    _switch.transform = CGAffineTransformMakeScale(0.75, 0.75);
-    [_switch setOn:YES];
-   
-    //添加label
-    UILabel *aggrementLabel = [[UILabel alloc] initWithFrame:CGRectMake(_switch.right, _switch.top, 250, 25)];
-    aggrementLabel.userInteractionEnabled = YES;
-    [aggrementView addSubview:aggrementLabel];
-    NSString *string = @"我已同意掌上行车用户服务协议";
+    UIButton *onlinePhoneCall = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH/2, 10, SCREENWIDTH/2, 30)];
+    [phoneView addSubview:onlinePhoneCall];
+    [onlinePhoneCall setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [onlinePhoneCall setTitle:@"在线客服" forState:UIControlStateNormal];
+    [onlinePhoneCall setImage:UIIMAGE(@"在线客服") forState:UIControlStateNormal];
     
-    NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:string];
     
-    [attribute setAttributes:@{NSLinkAttributeName :[NSURL URLWithString:@""]} range:NSMakeRange(4, string.length-4)];
-    [attribute setAttributes:@{NSFontAttributeName:SYSFONT15} range:NSRangeFromString(string)];
-    aggrementLabel.attributedText = attribute;
-   
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAggrementView)];
-    [aggrementLabel addGestureRecognizer:tap];
+    //加一个线
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH/2, 5, 0.5, 40)];
+    lineView.backgroundColor = [UIColor lightGrayColor];
+    [phoneView addSubview:lineView];
     
 }
-/**
- *  展示用户协议
- */
--(void)showAggrementView{
-    WebViewController *web = [[WebViewController alloc] init];
-    web.urlString = @"https://www.baidu.com/";
-    [self _pushViewController:web];
-}
-
-
 /**
  *  底部的按钮
  */
 -(void)_creatBottomView{
-    _submitButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 110+kTopBarHeight+60, SCREENWIDTH-20, 30)];
+    UIButton *submitButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 110+kTopBarHeight+60, SCREENWIDTH-20, 30)];
     
-    _submitButton.layer.cornerRadius = 5;
-    [self.view addSubview:_submitButton];
-    [_submitButton setTitle:@"登录" forState:0];
-    [_submitButton setBackgroundColor:[UIColor redColor]];
-    [_submitButton addTarget:self action:@selector(_loginAction) forControlEvents:UIControlEventTouchUpInside];
-    
+    submitButton.layer.cornerRadius = 5;
+    [self.view addSubview:submitButton];
+    [submitButton setTitle:@"提交" forState:0];
+    [submitButton setBackgroundColor:[UIColor redColor]];
+    [submitButton addTarget:self action:@selector(submitAction) forControlEvents:UIControlEventTouchUpInside];
 }
--(void)_loginAction{
-#warning 重新设置程序根视图.未找到其他方法。。。等待优化
-    if (_switch.on) {
-       
-        //    登陆
-        NSString *urlString1 = @"login.json";
-        NSDictionary *parameters1 =  @{
-                                       @"mobileNo":_phoneText.text,
-                                       @"authCode":_checkText.text
-                                       };
-        //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
-        NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
-        NSLog(@"jsonStr:%@",jsonStr);
-        NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
-        
-        [JH_NetWorking requestData:urlString1 HTTPMethod:@"GET" params:[params mutableCopy] completionHandle:^(id result) {
-            NSDictionary *dic = result;
-            NSNumber *isSuccess = dic[@"success"];
-            //判断是否成功
-            if ([isSuccess isEqual:@1]) {
-                NSDictionary *data = dic[@"data"];
-                //获取用户token
-                [[UserInfoSingle sharedInstance] setToken:data[@"token"]];
-                //获取userID
-                [[UserInfoSingle sharedInstance] setUserId:data[@"userId"]];
-                //获取号码
-                [[UserInfoSingle sharedInstance] setPhoneNum:data[@"mobileNo"]];
-                
-                //获取号码
-                [[UserInfoSingle sharedInstance] setOpenId:data[@"openId"]];
-                
-                /**
-                 *  关闭进度条
-                 */
-                [SVProgressHUD showSuccessWithStatus:@"登陆成功"];
-                
-                
-                //将自身的视图缓慢消失
-                [UIView animateWithDuration:0.5 animations:^{
-                    
-                    self.view.alpha = 0;
-                } completion:^(BOOL finished) {
-                    
-                    BaseTabBarVC *tabbar = [[BaseTabBarVC alloc] init];
-                    AppDelegate *appdelegate = APPDELEGATE;
-                    appdelegate.window.rootViewController = tabbar;
-                }];
-                
-            }else{
-                [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
-                
-                
-            }
-            
-            
-        } errorHandle:^(NSError *error) {
-            
-        }];
-    }else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"未同意用户协议" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
-    }
+-(void)submitAction{
     
+    //    登陆
+    NSString *urlString1 = @"updateMobile.json";
+    NSDictionary *parameters1 =  @{
+                                   @"newMobile":_phoneText.text,
+                                   @"oldAuthCode":_oldCode,
+                                   @"newAuthCode":_checkText.text
+                                   };
+    //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
+    NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
+    NSLog(@"jsonStr:%@",jsonStr);
+    NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
+    
+    [JH_NetWorking requestData:urlString1 HTTPMethod:@"GET" params:[params mutableCopy] completionHandle:^(id result) {
+        NSDictionary *dic = result;
+        NSNumber *isSuccess = dic[@"success"];
+        //判断是否成功
+        if ([isSuccess isEqual:@1]) {
+            
+            /**
+             *  关闭进度条
+             */
+            [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+            
+            [[NSUserDefaults standardUserDefaults]setObject:_phoneText.text forKey:JH_UserPhone];
+            //发送通知给
+            [[NSNotificationCenter defaultCenter]postNotificationName:JH_UserMobileChange object:nil userInfo:@{@"mobileNo":_phoneText.text}];
+            
+            //pop到我的资料页面
+            UIViewController *VC = [self.navigationController.viewControllers objectAtIndex:1];
+            
+            [self.navigationController popToViewController:VC animated:YES];
+            
 
-  
-
+        }else{
+            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+            
+            
+        }
+        
+        
+    } errorHandle:^(NSError *error) {
+        
+    }];
+    
+    
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
