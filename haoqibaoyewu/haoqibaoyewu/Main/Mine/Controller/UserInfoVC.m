@@ -81,14 +81,26 @@
 -(void)_makeData{
     
     if (_userModel!=nil) {
+        //判断数据的有效性
+        NSString *citycode = _userModel.cityCode;
+        NSString *nickName = _userModel.nickName;
+        
+        //昵称
+        if (nickName==nil) {
+            nickName = @"";
+        }
         
         //获取头像
         _imageUrl = _userModel.headUrl;
-    
-        NSString *city = _userModel.cityCode;
+        //城市
+        if (citycode==nil) {
+            citycode = @"请选择";
+        }else{
+            
+            citycode = [NSString CodeNameToName:citycode];
+        }
 
-        city = [NSString CodeNameToName:city];
-                                   
+        
         NSString *isAuthentication;
         
         //处理用户状态
@@ -108,7 +120,7 @@
         }
         
         
-        _detailNames = @[@"",_userModel.nickName,city,_userModel.inviterName,isAuthentication,_userModel.mobileNo,isOpenId];
+        _detailNames = @[@"",nickName,citycode,_userModel.inviterName,isAuthentication,_userModel.mobileNo,isOpenId];
     }
     _titleNames = @[@"头像",@"昵称",@"所在城市",@"邀请人",@"实名认证",@"手机号",@"微信绑定"];
  

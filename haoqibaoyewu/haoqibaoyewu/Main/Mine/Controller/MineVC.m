@@ -48,10 +48,22 @@
     [self _creatTableView];
 }
 -(void)viewWillAppear:(BOOL)animated{
+#warning 此处存在两个任务同时刷新tableView的操作，需要做线程等待
+//    dispatch_group_t group = dispatch_group_create();
+//    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+//    dispatch_group_async(group, queue, ^{
+//        NSLog(@"A");
+//         [self _loadMyData];
+//    });
+//    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+//        NSLog(@"B");
+//            [self _loadUserAccount];
+//    });
     //加载网络数据
-    [self _loadMyData];
-    [self _loadUserAccount];
     
+   [self _loadUserAccount];
+    
+    [self _loadMyData];
 }
 
 /**
@@ -129,16 +141,22 @@
             
             //刷新UI
             [_headImage sd_setImageWithURL:[NSURL URLWithString:data[@"headUrl"]] placeholderImage:[UIImage LoadImageFromBundle:JH_BaseImage]];
-            _nameLabel.text = data[@"nickName"];
+            //判断数据是否为空
+            if (![data[@"nickName"] isKindOfClass:[NSNull class]]) {
+                
+                _nameLabel.text = data[@"nickName"];
+            }else{
+                _nameLabel.text = @"";
+            }
             
             
             /**
              *  关闭进度条
              */
             [SVProgressHUD dismiss];
-            [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:0];
-            
-            
+//           [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+////
+//            [_tableView reloadData];
         }else{
             [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
             
@@ -217,14 +235,14 @@
         if ([isSuccess isEqual:@1]) {
             NSDictionary *data = dic[@"data"];
             _userAccount = data;
-            
-            
+
             /**
              *  关闭进度条
              */
             [SVProgressHUD dismiss];
             
-            [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:0];
+            [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+//            [_tableView reloadData];
             
         }else{
             [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
@@ -286,6 +304,7 @@
     if (indexPath.section==3) {
         cell.imageView.image = UIIMAGE(_imageNames[indexPath.row+4]);
         
+        NSLog(@"%@",_titleNames[indexPath.row+4]);
         cell.textLabel.text = _titleNames[indexPath.row+4];
     }
         
