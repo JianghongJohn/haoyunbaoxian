@@ -1,24 +1,24 @@
 //
-//  CustomerDetailVC.m
+//  UnPaidCustomerVC.m
 //  haoqibaoyewu
 //
-//  Created by hyjt on 16/7/18.
+//  Created by hyjt on 16/8/1.
 //  Copyright © 2016年 jianghong. All rights reserved.
 //
 
-#import "CustomerDetailVC.h"
-#import "CustomerCell.h"
-#import "CustomerDetailModel.h"
-@interface CustomerDetailVC ()<UITableViewDelegate,UITableViewDataSource>
+#import "UnPaidCustomerVC.h"
+#import "UnPaidDetailCell.h"
+#import "UnPaidModel.h"
+@interface UnPaidCustomerVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_tableView;
     NSArray *_FirstSectionTitle;
     NSMutableArray *_proposalList;
 }
+
 @end
 
-@implementation CustomerDetailVC
-
+@implementation UnPaidCustomerVC
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -39,12 +39,12 @@
         _proposalList  = [NSMutableArray array];
     }
     
-    NSString *urlString1 = @"paidCustomerDetail.json";
+    NSString *urlString1 = @"unPaidCustomerDetail.json";
     NSDictionary *parameters1 =  @{
                                    @"customerId": _customerId,
                                    @"vehicleId": _vehicleId,
                                    @"licensePlateNumber": _licensePlateNumber,
-
+                                   
                                    };
     //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
     NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
@@ -60,16 +60,16 @@
             
             
             _FirstSectionTitle = @[[NSString stringWithFormat:@"%@       %@",data[@"customerName"],data[@"licensePlateNumber"]],[NSString stringWithFormat:@"手机号       %@",data[@"phoneNumber"]],[NSString stringWithFormat:@"身份证号    %@",data[@"ownerCertNo"]]];
-
+            
             /**
              *  关闭进度条
              */
-            NSArray *proposalList = dic[@"proposalList"];
+            NSArray *proposalList = dic[@"quotationRecordDtos"];
             if (proposalList!=nil) {
                 
                 for (NSDictionary *dic in proposalList) {
                     
-                    CustomerDetailModel *model = [CustomerDetailModel mj_objectWithKeyValues:dic];
+                    UnPaidModel *model = [UnPaidModel mj_objectWithKeyValues:dic];
                     [_proposalList addObject:model];
                 }
             }
@@ -91,8 +91,7 @@
     } errorHandle:^(NSError *error) {
         
     }];
-    
-  
+
 }
 /**
  *  tableView
@@ -132,8 +131,7 @@
         }
         return cell;
     }else{
-        CustomerCell *cell = [[[NSBundle mainBundle ]loadNibNamed:@"CustomerCell" owner:self options:nil]firstObject];
-        cell.model = _proposalList[indexPath.row];
+        UnPaidDetailCell *cell = [[[NSBundle mainBundle ]loadNibNamed:@"UnPaidDetailCell" owner:self options:nil]firstObject];
         return cell;
     }
     
@@ -146,7 +144,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return indexPath.section?100:44;
+    return indexPath.section?50:44;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 1;
@@ -156,6 +154,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+/*
+#pragma mark - Navigation
 
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end

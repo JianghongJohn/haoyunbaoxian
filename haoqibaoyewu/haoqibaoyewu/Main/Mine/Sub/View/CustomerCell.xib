@@ -38,7 +38,7 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                         <inset key="imageEdgeInsets" minX="50" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="详情" image="arrow-right">
+                        <state key="normal" title="续保" image="arrow-right">
                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
@@ -160,6 +160,12 @@
                     <constraint firstAttribute="trailingMargin" secondItem="rwv-la-ElG" secondAttribute="trailing" constant="5" id="xo4-kU-izz"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="licenceLabel" destination="ubm-fw-FLW" id="Vwm-Kg-mUC"/>
+                <outlet property="orderNumLabel" destination="u6M-dx-And" id="V5l-Sy-fo2"/>
+                <outlet property="orderPriceLabel" destination="rwv-la-ElG" id="kP4-V2-nb6"/>
+                <outlet property="timeLabel" destination="AdH-uC-anQ" id="hzN-qa-Z7n"/>
+            </connections>
             <point key="canvasLocation" x="280" y="329"/>
         </tableViewCell>
     </objects>

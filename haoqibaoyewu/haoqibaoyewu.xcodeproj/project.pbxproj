@@ -74,6 +74,14 @@
 		A94C09A41D40E0AF006FCAE2 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A94C09A31D40E0AF006FCAE2 /* LoginVC.m */; };
 		A9549AEF1D48563E00EFAD91 /* NSString+JH_CityName_Code_Change.m in Sources */ = {isa = PBXBuildFile; fileRef = A9549AEE1D48563E00EFAD91 /* NSString+JH_CityName_Code_Change.m */; };
 		A960B9F61D4EEE5E00D3021F /* BonusPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = A960B9F51D4EEE5E00D3021F /* BonusPoint.m */; };
+		A960B9F91D4EF99500D3021F /* MyCustomerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A960B9F81D4EF99500D3021F /* MyCustomerModel.m */; };
+		A960B9FC1D4F1FA300D3021F /* CustomerDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A960B9FB1D4F1FA300D3021F /* CustomerDetailModel.m */; };
+		A960BA031D4F24DD00D3021F /* UnPaidCustomerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A960BA011D4F24DD00D3021F /* UnPaidCustomerCell.m */; };
+		A960BA041D4F24DD00D3021F /* UnPaidCustomerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A960BA021D4F24DD00D3021F /* UnPaidCustomerCell.xib */; };
+		A960BA071D4F2CDC00D3021F /* UnPaidCustomerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A960BA061D4F2CDC00D3021F /* UnPaidCustomerVC.m */; };
+		A960BA0B1D4F2D7A00D3021F /* UnPaidDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A960BA091D4F2D7A00D3021F /* UnPaidDetailCell.m */; };
+		A960BA0C1D4F2D7A00D3021F /* UnPaidDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A960BA0A1D4F2D7A00D3021F /* UnPaidDetailCell.xib */; };
+		A960BA0F1D4F346600D3021F /* UnPaidModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A960BA0E1D4F346600D3021F /* UnPaidModel.m */; };
 		A9729D781D3498FA002FFCD0 /* UserInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9729D771D3498FA002FFCD0 /* UserInfoVC.m */; };
 		A9729D7F1D34C872002FFCD0 /* AuthenticationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9729D7E1D34C872002FFCD0 /* AuthenticationVC.m */; };
 		A9729D811D34D2A5002FFCD0 /* p0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9729D801D34D2A5002FFCD0 /* p0.jpg */; };
@@ -259,6 +267,20 @@
 		A9549AEE1D48563E00EFAD91 /* NSString+JH_CityName_Code_Change.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JH_CityName_Code_Change.m"; sourceTree = "<group>"; };
 		A960B9F41D4EEE5E00D3021F /* BonusPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusPoint.h; sourceTree = "<group>"; };
 		A960B9F51D4EEE5E00D3021F /* BonusPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BonusPoint.m; sourceTree = "<group>"; };
+		A960B9F71D4EF99500D3021F /* MyCustomerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCustomerModel.h; sourceTree = "<group>"; };
+		A960B9F81D4EF99500D3021F /* MyCustomerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCustomerModel.m; sourceTree = "<group>"; };
+		A960B9FA1D4F1FA300D3021F /* CustomerDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerDetailModel.h; sourceTree = "<group>"; };
+		A960B9FB1D4F1FA300D3021F /* CustomerDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailModel.m; sourceTree = "<group>"; };
+		A960BA001D4F24DD00D3021F /* UnPaidCustomerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnPaidCustomerCell.h; sourceTree = "<group>"; };
+		A960BA011D4F24DD00D3021F /* UnPaidCustomerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnPaidCustomerCell.m; sourceTree = "<group>"; };
+		A960BA021D4F24DD00D3021F /* UnPaidCustomerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UnPaidCustomerCell.xib; sourceTree = "<group>"; };
+		A960BA051D4F2CDC00D3021F /* UnPaidCustomerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnPaidCustomerVC.h; sourceTree = "<group>"; };
+		A960BA061D4F2CDC00D3021F /* UnPaidCustomerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnPaidCustomerVC.m; sourceTree = "<group>"; };
+		A960BA081D4F2D7A00D3021F /* UnPaidDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnPaidDetailCell.h; sourceTree = "<group>"; };
+		A960BA091D4F2D7A00D3021F /* UnPaidDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnPaidDetailCell.m; sourceTree = "<group>"; };
+		A960BA0A1D4F2D7A00D3021F /* UnPaidDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UnPaidDetailCell.xib; sourceTree = "<group>"; };
+		A960BA0D1D4F346600D3021F /* UnPaidModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnPaidModel.h; sourceTree = "<group>"; };
+		A960BA0E1D4F346600D3021F /* UnPaidModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnPaidModel.m; sourceTree = "<group>"; };
 		A9729D761D3498FA002FFCD0 /* UserInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoVC.h; sourceTree = "<group>"; };
 		A9729D771D3498FA002FFCD0 /* UserInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoVC.m; sourceTree = "<group>"; };
 		A9729D7D1D34C872002FFCD0 /* AuthenticationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AuthenticationVC.h; path = ../AuthenticationVC.h; sourceTree = "<group>"; };
@@ -745,6 +767,8 @@
 				A906E9071D3C7AC300926089 /* MyCustomerVC.m */,
 				A906E90E1D3C869600926089 /* CustomerDetailVC.h */,
 				A906E90F1D3C869600926089 /* CustomerDetailVC.m */,
+				A960BA051D4F2CDC00D3021F /* UnPaidCustomerVC.h */,
+				A960BA061D4F2CDC00D3021F /* UnPaidCustomerVC.m */,
 				A94C099B1D40D36C006FCAE2 /* ShareVC.h */,
 				A94C099C1D40D36C006FCAE2 /* ShareVC.m */,
 				A94C099D1D40D36C006FCAE2 /* ShareVC.xib */,
@@ -763,6 +787,12 @@
 				A9012E981D48949700418BD6 /* InviterModel.m */,
 				A960B9F41D4EEE5E00D3021F /* BonusPoint.h */,
 				A960B9F51D4EEE5E00D3021F /* BonusPoint.m */,
+				A960B9F71D4EF99500D3021F /* MyCustomerModel.h */,
+				A960B9F81D4EF99500D3021F /* MyCustomerModel.m */,
+				A960B9FA1D4F1FA300D3021F /* CustomerDetailModel.h */,
+				A960B9FB1D4F1FA300D3021F /* CustomerDetailModel.m */,
+				A960BA0D1D4F346600D3021F /* UnPaidModel.h */,
+				A960BA0E1D4F346600D3021F /* UnPaidModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -787,9 +817,15 @@
 				A906E9091D3C7CC000926089 /* MyCustomerCell.h */,
 				A906E90A1D3C7CC000926089 /* MyCustomerCell.m */,
 				A906E90B1D3C7CC000926089 /* MyCustomerCell.xib */,
+				A960BA001D4F24DD00D3021F /* UnPaidCustomerCell.h */,
+				A960BA011D4F24DD00D3021F /* UnPaidCustomerCell.m */,
+				A960BA021D4F24DD00D3021F /* UnPaidCustomerCell.xib */,
 				A906E9111D3CAD9A00926089 /* CustomerCell.h */,
 				A906E9121D3CAD9A00926089 /* CustomerCell.m */,
 				A906E9131D3CAD9A00926089 /* CustomerCell.xib */,
+				A960BA081D4F2D7A00D3021F /* UnPaidDetailCell.h */,
+				A960BA091D4F2D7A00D3021F /* UnPaidDetailCell.m */,
+				A960BA0A1D4F2D7A00D3021F /* UnPaidDetailCell.xib */,
 				A94C09911D40C3AA006FCAE2 /* InviterListCell.h */,
 				A94C09921D40C3AA006FCAE2 /* InviterListCell.m */,
 				A94C09931D40C3AA006FCAE2 /* InviterListCell.xib */,
@@ -953,11 +989,13 @@
 				A94C09871D4074B6006FCAE2 /* InfoPlist.strings in Resources */,
 				A9BAED051D348B6000B1108E /* SquareCell.xib in Resources */,
 				A93B6C401D3DCA3000B9E10F /* city.plist in Resources */,
+				A960BA041D4F24DD00D3021F /* UnPaidCustomerCell.xib in Resources */,
 				A932BD411D38E176002A2371 /* ServeCell.xib in Resources */,
 				A94C09951D40C3AA006FCAE2 /* InviterListCell.xib in Resources */,
 				A9FDBC2D1D47685100ED12F8 /* citycode.json in Resources */,
 				A9E5D1351D3740890017B086 /* MyTaskCell.xib in Resources */,
 				A9729DC81D350B74002FFCD0 /* MyPointCell.xib in Resources */,
+				A960BA0C1D4F2D7A00D3021F /* UnPaidDetailCell.xib in Resources */,
 				A9729D811D34D2A5002FFCD0 /* p0.jpg in Resources */,
 				A906E9151D3CAD9A00926089 /* CustomerCell.xib in Resources */,
 				0D6A8D981D2F793D006D3C44 /* EducationVedioCell.xib in Resources */,
@@ -1072,6 +1110,8 @@
 				A93BD88C1D41BF69006AA2D8 /* NSDictionary+ToJson.m in Sources */,
 				A9E5D1811D3777FD0017B086 /* MyTeamVC.m in Sources */,
 				A9012E991D48949700418BD6 /* InviterModel.m in Sources */,
+				A960B9FC1D4F1FA300D3021F /* CustomerDetailModel.m in Sources */,
+				A960BA0F1D4F346600D3021F /* UnPaidModel.m in Sources */,
 				A9729DC71D350B74002FFCD0 /* MyPointCell.m in Sources */,
 				0D52676A1D2E4D9200B7C0B9 /* UIImage+fromBundle.m in Sources */,
 				A9086D471D35E44600DCF3DA /* MyWalletVC.m in Sources */,
@@ -1084,6 +1124,8 @@
 				A9FDBC281D47440000ED12F8 /* UserInfoModel.m in Sources */,
 				A9729D841D34DF73002FFCD0 /* MyInviterVC.m in Sources */,
 				0D52675A1D2E30E100B7C0B9 /* HomeTableHead.m in Sources */,
+				A960BA031D4F24DD00D3021F /* UnPaidCustomerCell.m in Sources */,
+				A960BA071D4F2CDC00D3021F /* UnPaidCustomerVC.m in Sources */,
 				A94C097E1D40663C006FCAE2 /* ActiveListVC.m in Sources */,
 				A9FDBC251D47323300ED12F8 /* SquareModel.m in Sources */,
 				A93B6C4C1D3E044000B9E10F /* ServeModel.m in Sources */,
@@ -1091,6 +1133,7 @@
 				0D6A8D8E1D2F4366006D3C44 /* HomeHotVedioCell.m in Sources */,
 				A906E90C1D3C7CC000926089 /* MyCustomerCell.m in Sources */,
 				0D52675F1D2E319C00B7C0B9 /* TouchImageView.m in Sources */,
+				A960B9F91D4EF99500D3021F /* MyCustomerModel.m in Sources */,
 				A906E9191D3CCFD200926089 /* MyHeadPortrait.m in Sources */,
 				0D169B7F1D2B922B00F94E21 /* HomeVC.m in Sources */,
 				A94C09A41D40E0AF006FCAE2 /* LoginVC.m in Sources */,
@@ -1105,6 +1148,7 @@
 				A99C4B961D4616AB00A2C826 /* VedioModel.m in Sources */,
 				A932BD401D38E176002A2371 /* ServeCell.m in Sources */,
 				A932BD2D1D38D3C5002A2371 /* MemberInfoVC.m in Sources */,
+				A960BA0B1D4F2D7A00D3021F /* UnPaidDetailCell.m in Sources */,
 				0D860DD91D2A53320091A858 /* AppDelegate.m in Sources */,
 				0D169B791D2B912C00F94E21 /* BaseVC.m in Sources */,
 				A9729DCB1D35148F002FFCD0 /* OrderVC.m in Sources */,

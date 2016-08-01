@@ -1,14 +1,14 @@
 //
-//  MyCustomerCell.m
+//  UnPaidCustomerCell.m
 //  haoqibaoyewu
 //
-//  Created by hyjt on 16/7/18.
+//  Created by hyjt on 16/8/1.
 //  Copyright © 2016年 jianghong. All rights reserved.
 //
 
-#import "MyCustomerCell.h"
+#import "UnPaidCustomerCell.h"
 
-@implementation MyCustomerCell
+@implementation UnPaidCustomerCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -28,10 +28,11 @@
         _timeLabel.text = [NSString stringWithFormat:@"%i",_model.effectEndTime];
         if ([_model.customerSex isEqualToString:@"male"]) {
             
-            _sexImage.image = [UIImage imageNamed:@"男"];
+            _sexLabel.image = [UIImage imageNamed:@"男"];
         }
-        _licenseNum.text = _model.licensePlateNumber;
+        _licenseLabel.text = _model.licensePlateNumber;
         
+        _priceLabel.text = [NSString stringWithFormat:@"%li",_model.premium];
     }
     
 }

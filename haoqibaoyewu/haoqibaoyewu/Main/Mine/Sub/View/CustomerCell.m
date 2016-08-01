@@ -21,4 +21,15 @@
     // Configure the view for the selected state
 }
 
+-(void)setModel:(CustomerDetailModel *)model{
+    if (_model!=model) {
+        _model = model;
+        
+        _orderNumLabel.text = [NSString stringWithFormat:@"%li",_model.orderId];
+        _timeLabel.text = [NSString stringWithFormat:@"%i",_model.effectEndTime];
+        _orderPriceLabel.text = [NSString stringWithFormat:@"%li",_model.premium];
+        _licenceLabel.text = _model.licensePlateNumber;
+    }
+    
+}
 @end
