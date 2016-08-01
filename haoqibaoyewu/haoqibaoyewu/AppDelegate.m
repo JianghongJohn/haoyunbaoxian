@@ -54,9 +54,7 @@
         UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:login];
         self.window.rootViewController = navigation;
     }else{
-        /**
-         *  加载已保存的用户信息
-         */
+       
         [[UserInfoSingle sharedInstance] getUserInfo];
         
         BaseTabBarVC *rootTabBar = [[BaseTabBarVC alloc]init];

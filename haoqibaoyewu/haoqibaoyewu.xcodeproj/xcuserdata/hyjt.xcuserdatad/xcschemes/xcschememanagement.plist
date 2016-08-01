@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Document.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
 		<key>haoqibaoyewu.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -23,6 +28,11 @@
 			<true/>
 		</dict>
 		<key>0D860DF41D2A53330091A858</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A960BA101D4F4A4700D3021F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

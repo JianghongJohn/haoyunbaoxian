@@ -122,7 +122,7 @@
     
     if (_tableView==nil) {
         
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,  _searchBar.bottom+10, SCREENWIDTH, SCREENHEIGHT-kTopBarHeight) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,  _searchBar.bottom+5, SCREENWIDTH, SCREENHEIGHT-kTopBarHeight) style:UITableViewStylePlain];
     }
     [self.view addSubview:_tableView];
     _tableView.delegate = self;

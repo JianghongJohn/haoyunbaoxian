@@ -129,7 +129,7 @@
     NSString *urlString1 = @"getVideoListByCondition.json";
     NSDictionary *parameters1 =  @{
                                    @"page": @"1",
-                                   @"rows": @"3",
+                                   @"rows": @"2",
                                    @"videoName":@""
                                    };
     //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
@@ -179,7 +179,7 @@
     NSString *urlString1 = @"getActivityTplListByCondition.json?";
     NSDictionary *parameters1 =
     @{
-      @"rows":@3,
+      @"rows":@2,
       @"type":@"NEWS",
       @"page":@1
       };
