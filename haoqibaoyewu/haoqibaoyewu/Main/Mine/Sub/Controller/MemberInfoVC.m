@@ -47,7 +47,23 @@
  *  处理数据
  */
 -(void)_makeData{
-    _detailNames = @[@"追梦赤子",@"江红",@"6",@"￥520.00",@"1",@"￥52.00"];
+    //判断数据是否为空
+    NSString *name;
+    NSString *nickName;
+    
+    if (_memberModel.name ==nil) {
+        name = @"";
+    }else{
+        name = _memberModel.name;
+    }
+    if (_memberModel.nickName == nil) {
+        nickName = @"";
+    }else{
+        nickName = _memberModel.nickName;
+    }
+  
+    
+    _detailNames = @[nickName,name,@(_memberModel.policyCount),@(_memberModel.premium),@(_memberModel.todayPolicyCount),@(_memberModel.todayPremium)];
     _titleNames = @[@"",@"真实姓名",@"总保单数",@"总保费",@"当日保单数",@"总保费数"];
     
 }
@@ -56,7 +72,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 {
-    return 6;
+    return _detailNames.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -68,14 +84,17 @@
     }
     
     cell.textLabel.text = _titleNames[indexPath.row];
-    cell.detailTextLabel.text = _detailNames[indexPath.row];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",_detailNames[indexPath.row] ];
     //添加头像
     if (indexPath.row==0) {
         
-        cell.imageView.image = [UIImage imageCompressWithSimple:[UIImage LoadImageFromBundle:@"20 4.jpg"] scaledToSize:CGSizeMake(50, 50)];
-        //未实现缩放
-        cell.imageView.layer.cornerRadius = 25;
-        cell.imageView.layer.masksToBounds = YES;
+        //头像
+        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 50, 50)];
+        
+        [headImageView sd_setImageWithURL:[NSURL URLWithString:_memberModel.headUrl] placeholderImage:[UIImage imageNamed:JH_BaseImage]];
+        [cell.contentView addSubview:headImageView];
+        headImageView.layer.cornerRadius = 25;
+        headImageView.layer.masksToBounds = YES;
         
     }
     

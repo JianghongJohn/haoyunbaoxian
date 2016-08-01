@@ -9,9 +9,26 @@
 #import <Foundation/Foundation.h>
 
 @interface TeamMemberModel : NSObject
-@property(nonatomic,copy)NSString *imageUrl;
-@property(nonatomic,copy)NSString *nickName;
-@property(nonatomic,copy)NSString *realName;
-@property(nonatomic,assign)BOOL isAlive;
+
+
+@property (nonatomic, assign) NSInteger userId;
+
+@property (nonatomic, copy) NSString *nickName;
+
+@property (nonatomic, copy) NSString *headUrl;
+
+@property (nonatomic, copy) NSString *mobileNo;
+
+@property (nonatomic, assign) CGFloat premium;
+
+@property (nonatomic, assign) NSInteger policyCount;
+
+@property (nonatomic, assign) NSInteger todayPremium;
+
+@property (nonatomic, assign) NSInteger todayPolicyCount;
+
+@property (nonatomic, copy) NSString *name;
+
+@property (nonatomic, assign) NSInteger state;
 
 @end

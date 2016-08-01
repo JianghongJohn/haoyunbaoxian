@@ -7,8 +7,9 @@
 //
 
 #import "TeamMemberVC.h"
-#import "TeamMemberModel.h"
+
 #import "MemberInfoVC.h"
+
 @interface TeamMemberVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_tableView;
@@ -31,46 +32,9 @@
     if (_memberArray==nil) {
         _memberArray = [NSMutableArray array];
     }
-
-    NSArray *memberData = @[@{@"imageUrl":@"3 2.jpg",
-                              @"nickName":@"john啦啦啦",
-                              @"realName":@"江红",
-                              @"isAlive":@YES
-                                },
-                            @{@"imageUrl":@"3 2.jpg",
-                              @"nickName":@"john啦啦啦",
-                              @"realName":@"江红",
-                              @"isAlive":@YES
-                              },
-                            @{@"imageUrl":@"3 2.jpg",
-                              @"nickName":@"john啦啦啦",
-                              @"realName":@"江红",
-                              @"isAlive":@YES
-                              },
-                            @{@"imageUrl":@"3 2.jpg",
-                              @"nickName":@"john啦啦啦",
-                              @"realName":@"江红",
-                              @"isAlive":@YES
-                              },
-                            @{@"imageUrl":@"3 2.jpg",
-                              @"nickName":@"john啦啦啦",
-                              @"realName":@"江红",
-                              @"isAlive":@NO
-                              },
-                            @{@"imageUrl":@"3 2.jpg",
-                              @"nickName":@"john啦啦啦",
-                              @"realName":@"江红",
-                              @"isAlive":@YES
-                              },
-                            @{@"imageUrl":@"3 2.jpg",
-                              @"nickName":@"john啦啦啦",
-                              @"realName":@"江红",
-                              @"isAlive":@YES
-                              }
-                            ];
     
-    for (NSDictionary *dic in memberData) {
-        TeamMemberModel *model = [TeamMemberModel mj_objectWithKeyValues:dic];
+    for (NSDictionary *dic in _memberList) {
+        TeamMemberModel *model = [TeamMemberModel mj_objectWithKeyValues:dic ];
         [_memberArray addObject:model];
     }
     
@@ -93,7 +57,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 {
-    return 7;
+    return _memberList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -109,12 +73,16 @@
     
     TeamMemberModel *model = _memberArray[indexPath.row];
     //头像
-    cell.imageView.image = [self imageCompressWithSimple:[UIImage LoadImageFromBundle:model.imageUrl] scaledToSize:CGSizeMake(45,45)];
-    cell.imageView.layer.cornerRadius = 22.5;
-    cell.imageView.layer.masksToBounds = YES;
+    UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 50, 50)];
+   
+    [headImageView sd_setImageWithURL:[NSURL URLWithString:model.headUrl] placeholderImage:[UIImage imageNamed:JH_BaseImage]];
+    [cell.contentView addSubview:headImageView];
+    headImageView.layer.cornerRadius = 25;
+    headImageView.layer.masksToBounds = YES;
+    
     
     //是否激活
-    cell.detailTextLabel.text = model.isAlive?@"":@"未激活";
+    cell.detailTextLabel.text = model.state?@"":@"未激活";
     cell.detailTextLabel.textColor = [UIColor orangeColor];
     //创建两个标签
     UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 150, 30)];
@@ -122,7 +90,7 @@
     [cell.contentView addSubview:nickName];
     
     UILabel *realName = [[UILabel alloc] initWithFrame:CGRectMake(70, 30, 150, 30)];
-    realName.text = model.realName;
+    realName.text = model.name;
     realName.textColor = [UIColor grayColor];
     realName.font = SYSFONT14;
     [cell.contentView addSubview:realName];
@@ -130,25 +98,7 @@
     return cell;
     
 }
-/**
- *  图片缩放
- *
- *  @param image 传入图片
- *  @param size  需要的图片大小
- *  @return 返回新图片
- */
--(UIImage*)imageCompressWithSimple:(UIImage*)image scaledToSize:(CGSize)size
-{
-    UIGraphicsBeginImageContext(size);
-    
-    [image drawInRect:CGRectMake(0,0,size.width,size.height)];
-  
-    UIImage*newImage=UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return newImage;
-}
+
 #pragma mark - tableViewDataDelegate
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -166,9 +116,15 @@
 #pragma mark - 选中事件
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    MemberInfoVC *memberInfo = [[MemberInfoVC alloc] init];
-    memberInfo.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:memberInfo animated:YES];
+    if (_memberList.count!=0) {
+        TeamMemberModel *model = _memberArray[indexPath.row];
+        
+        MemberInfoVC *memberInfo = [[MemberInfoVC alloc] init];
+        memberInfo.memberModel = model;
+        
+        memberInfo.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:memberInfo animated:YES];
+    }
 }
 
 /*

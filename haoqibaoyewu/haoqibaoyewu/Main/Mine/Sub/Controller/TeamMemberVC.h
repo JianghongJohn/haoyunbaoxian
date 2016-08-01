@@ -7,7 +7,7 @@
 //
 
 #import "BaseVC.h"
-
+#import "TeamMemberModel.h"
 @interface TeamMemberVC : BaseVC
-
+@property(nonatomic,copy)NSArray *memberList;
 @end

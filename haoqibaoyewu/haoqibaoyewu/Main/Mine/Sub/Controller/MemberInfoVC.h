@@ -7,7 +7,7 @@
 //
 
 #import "BaseVC.h"
-
+#import "TeamMemberModel.h"
 @interface MemberInfoVC : BaseVC
-
+@property(nonatomic,strong)TeamMemberModel *memberModel;
 @end

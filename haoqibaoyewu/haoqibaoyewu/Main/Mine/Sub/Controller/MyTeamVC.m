@@ -9,8 +9,15 @@
 #import "MyTeamVC.h"
 #import "JH_RankStarView.h"
 #import "TeamMemberVC.h"
-@interface MyTeamVC ()
 
+@interface MyTeamVC ()
+{
+    NSArray *_memberList;
+    NSInteger _level;
+    NSNumber *_premium;
+    NSInteger _policyCount;
+  
+}
 @end
 
 @implementation MyTeamVC
@@ -18,8 +25,73 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的战队";
-    [self _craetRantView];
-    [self _creatUserHeadImageView];
+    [self _loadData];
+  
+}
+/**
+ *  加载战队信息
+ */
+-(void)_loadData{
+    /**
+     *  获取数据
+     */
+    
+    NSString *urlString1 = @"getMyTeam.json";
+    NSDictionary *parameters1 =  @{
+                                
+                                   };
+    //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
+    NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
+    NSLog(@"jsonStr:%@",jsonStr);
+    NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
+    
+    [JH_NetWorking requestData:urlString1 HTTPMethod:@"GET" params:[params mutableCopy] completionHandle:^(id result) {
+        NSDictionary *dic = result;
+        NSNumber *isSuccess = dic[@"success"];
+        //判断是否成功
+        if ([isSuccess isEqual:@1]) {
+            NSDictionary *data = dic[@"data"];
+            /**
+             *  关闭进度条
+             */
+            NSArray *memberList = data[@"memberList"];
+            _memberList = memberList;
+
+            _level = [data[@"level"] integerValue];
+            _policyCount =  [data[@"policyCount"]integerValue];
+            _premium =  data[@"premium"];
+            
+            [self _craetRantView];
+            
+            [self _creatUserHeadImageView];
+            
+            
+            [SVProgressHUD dismiss];
+            
+            
+            
+        }else{
+            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+            _level = 0;
+            _policyCount =  0;
+            _premium =  0;
+            
+            [self _craetRantView];
+            
+            [self _creatUserHeadImageView];
+            
+        }
+        
+        
+    } errorHandle:^(NSError *error) {
+        _level = 0;
+        _policyCount =  0;
+        _premium =  0;
+        
+        [self _craetRantView];
+        
+        [self _creatUserHeadImageView];
+    }];
 }
 /**
  *  上部视图分为：等级、总保费、总保单 几个线条
@@ -37,12 +109,12 @@
     rankLabel.layer.borderColor = [UIColor redColor].CGColor;
     rankLabel.layer.borderWidth = 0.5;
     
-    rankLabel.text = @"等级4";
+    rankLabel.text = [NSString stringWithFormat:@"等级%li",_level];
     
     [rankView addSubview:rankLabel];
 
     //等级星星
-    JH_RankStarView *starView = [[JH_RankStarView alloc] initWithFrame:CGRectMake(rankLabel.right+10, rankLabel.top+2, (rankLabel.height-4)*5, rankLabel.height-4) withRank:4];
+    JH_RankStarView *starView = [[JH_RankStarView alloc] initWithFrame:CGRectMake(rankLabel.right+10, rankLabel.top+2, (rankLabel.height-4)*5, rankLabel.height-4) withRank:_level];
     [rankView addSubview:starView];
     
     //画条线
@@ -50,7 +122,7 @@
     lineView.backgroundColor = [UIColor lightGrayColor];
     [rankView addSubview:lineView];
     
-    NSArray *labelTitles = @[@"总保费",@"￥520.44",@"总保单",@"5张"];
+    NSArray *labelTitles = @[@"总保费",[NSString stringWithFormat:@"￥%@",_premium],@"总保单", [NSString stringWithFormat:@"%li",_policyCount]];
     //总保费    //总保单
     for (int labelNum=0; labelNum<4; labelNum++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10+SCREENWIDTH/4*labelNum, lineView.bottom+10, SCREENWIDTH/4-10, 20)];
@@ -88,7 +160,7 @@
     //人数
     UIButton *teamNum = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH-100,0, 90, 30)];
      [teamNum setImage:[UIImage imageNamed:@"arrow-right"] forState:UIControlStateNormal];
-    [teamNum setTitle:@"6人" forState:UIControlStateNormal];
+    [teamNum setTitle:[NSString stringWithFormat:@"%li人",_memberList.count] forState:UIControlStateNormal];
     [teamNum setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
    
     [teamNum setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -100)];
@@ -104,18 +176,23 @@
     /**
      *  头像使用滚动视图实现，根据成员数量添加
      */
-    NSArray *headImages = @[@"",@"",@"",@"",@"",@"",@""];
-    
-    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, lineView.bottom, SCREENWIDTH, 40)];
-    scroll.contentSize = CGSizeMake(50*headImages.count, 40);
-    [baseHeadView addSubview:scroll];
-    for (int imageNum = 0; imageNum<headImages.count; imageNum++) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50*imageNum+10, 10, 30, 30)];
-        imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"3 %i.jpg",(imageNum+2)]];
-        imageView.layer.masksToBounds = YES;
-        imageView.layer.cornerRadius = 15;
-        [scroll addSubview:imageView];
+    if (_memberList.count!=0) {
+        
+        NSArray *headImages = _memberList;
+        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, lineView.bottom, SCREENWIDTH, 40)];
+        scroll.contentSize = CGSizeMake(50*headImages.count, 40);
+        [baseHeadView addSubview:scroll];
+        for (int imageNum = 0; imageNum<headImages.count; imageNum++) {
+            NSDictionary *member = _memberList[imageNum];
+            
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50*imageNum+10, 10, 30, 30)];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:member[@"headUrl"]] placeholderImage:[UIImage imageNamed:JH_BaseImage]];
+            imageView.layer.masksToBounds = YES;
+            imageView.layer.cornerRadius = 15;
+            [scroll addSubview:imageView];
+        }
     }
+    
     
     
 }
@@ -123,10 +200,14 @@
  *  点击人数跳转到战队成员页面
  */
 -(void)_PushToMemberView{
-    TeamMemberVC *teamMember = [[TeamMemberVC alloc] init];
-    teamMember.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:teamMember animated:YES];
-    
+    if (_memberList.count!=0) {
+        
+        TeamMemberVC *teamMember = [[TeamMemberVC alloc] init];
+        teamMember.hidesBottomBarWhenPushed = YES;
+        teamMember.memberList = _memberList;
+        [self.navigationController pushViewController:teamMember animated:YES];
+        
+    }
 }
 
 
