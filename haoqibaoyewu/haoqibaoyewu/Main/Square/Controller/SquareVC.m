@@ -115,9 +115,7 @@
              */
            
             [SVProgressHUD showSuccessWithStatus:@"数据已加载"];
-            
-            
-            
+  
         }else{
             [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
             [_tableView.mj_header endRefreshing];

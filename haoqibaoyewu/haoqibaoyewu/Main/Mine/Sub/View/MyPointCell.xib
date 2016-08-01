@@ -15,7 +15,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="用户注册" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tDf-ig-NPa">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="示例数据" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tDf-ig-NPa">
                         <rect key="frame" x="8" y="8" width="150" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="XuA-ln-24o"/>
@@ -25,7 +25,7 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016-7-10 20:15:23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gO-GQ-O4V">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2000-1-11 00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gO-GQ-O4V">
                         <rect key="frame" x="8" y="34" width="150" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="150" id="Ond-wt-eZg"/>
@@ -35,7 +35,7 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+150" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSe-UQ-7Os">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSe-UQ-7Os">
                         <rect key="frame" x="162" y="8" width="150" height="43"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="150" id="pNQ-Yz-a7L"/>
@@ -55,6 +55,11 @@
                     <constraint firstItem="5gO-GQ-O4V" firstAttribute="top" secondItem="tDf-ig-NPa" secondAttribute="bottom" constant="5" id="pfu-Rr-J3O"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="pointLabel" destination="TSe-UQ-7Os" id="0PJ-b3-cEN"/>
+                <outlet property="timeLabel" destination="5gO-GQ-O4V" id="p4H-EC-osp"/>
+                <outlet property="typeLabel" destination="tDf-ig-NPa" id="c0N-DT-eCc"/>
+            </connections>
             <point key="canvasLocation" x="413" y="367"/>
         </tableViewCell>
     </objects>

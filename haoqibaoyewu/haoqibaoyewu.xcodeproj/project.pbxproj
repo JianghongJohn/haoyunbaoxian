@@ -73,6 +73,7 @@
 		A94C09A11D40D568006FCAE2 /* 邀请.png in Resources */ = {isa = PBXBuildFile; fileRef = A94C09A01D40D568006FCAE2 /* 邀请.png */; };
 		A94C09A41D40E0AF006FCAE2 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A94C09A31D40E0AF006FCAE2 /* LoginVC.m */; };
 		A9549AEF1D48563E00EFAD91 /* NSString+JH_CityName_Code_Change.m in Sources */ = {isa = PBXBuildFile; fileRef = A9549AEE1D48563E00EFAD91 /* NSString+JH_CityName_Code_Change.m */; };
+		A960B9F61D4EEE5E00D3021F /* BonusPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = A960B9F51D4EEE5E00D3021F /* BonusPoint.m */; };
 		A9729D781D3498FA002FFCD0 /* UserInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9729D771D3498FA002FFCD0 /* UserInfoVC.m */; };
 		A9729D7F1D34C872002FFCD0 /* AuthenticationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A9729D7E1D34C872002FFCD0 /* AuthenticationVC.m */; };
 		A9729D811D34D2A5002FFCD0 /* p0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9729D801D34D2A5002FFCD0 /* p0.jpg */; };
@@ -256,6 +257,8 @@
 		A94C09A31D40E0AF006FCAE2 /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
 		A9549AED1D48563E00EFAD91 /* NSString+JH_CityName_Code_Change.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JH_CityName_Code_Change.h"; sourceTree = "<group>"; };
 		A9549AEE1D48563E00EFAD91 /* NSString+JH_CityName_Code_Change.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JH_CityName_Code_Change.m"; sourceTree = "<group>"; };
+		A960B9F41D4EEE5E00D3021F /* BonusPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusPoint.h; sourceTree = "<group>"; };
+		A960B9F51D4EEE5E00D3021F /* BonusPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BonusPoint.m; sourceTree = "<group>"; };
 		A9729D761D3498FA002FFCD0 /* UserInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoVC.h; sourceTree = "<group>"; };
 		A9729D771D3498FA002FFCD0 /* UserInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoVC.m; sourceTree = "<group>"; };
 		A9729D7D1D34C872002FFCD0 /* AuthenticationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AuthenticationVC.h; path = ../AuthenticationVC.h; sourceTree = "<group>"; };
@@ -758,6 +761,8 @@
 				A93B6C4B1D3E044000B9E10F /* ServeModel.m */,
 				A9012E971D48949700418BD6 /* InviterModel.h */,
 				A9012E981D48949700418BD6 /* InviterModel.m */,
+				A960B9F41D4EEE5E00D3021F /* BonusPoint.h */,
+				A960B9F51D4EEE5E00D3021F /* BonusPoint.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1092,6 +1097,7 @@
 				A9E5D18C1D37975B0017B086 /* JH_RankStarView.m in Sources */,
 				A99C4B8D1D45ADB700A2C826 /* ActiveImageView.m in Sources */,
 				A9729D781D3498FA002FFCD0 /* UserInfoVC.m in Sources */,
+				A960B9F61D4EEE5E00D3021F /* BonusPoint.m in Sources */,
 				A9E5D17D1D3771710017B086 /* JH_PersentCircleView.m in Sources */,
 				A93BD8921D41C63F006AA2D8 /* JH_NetWorking.m in Sources */,
 				A93BD88F1D41C1ED006AA2D8 /* NSDictionary+Log.m in Sources */,

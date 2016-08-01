@@ -50,6 +50,7 @@
  */
 -(void)setNonusNum:(NSString *)nonusNum{
     if (_nonusNum!=nonusNum) {
+        _nonusNum = nonusNum;
         _bonusLabel.text = _nonusNum;
     }
 }

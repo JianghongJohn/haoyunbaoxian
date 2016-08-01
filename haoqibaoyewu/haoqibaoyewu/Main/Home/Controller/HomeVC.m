@@ -475,7 +475,7 @@
          *
          *  @return 延迟发送通知，使通知能够在页面出现之后接收通知
          */
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             [[NSNotificationCenter defaultCenter]postNotificationName:JH_TurnToVideoById object:nil userInfo:@{@"id":@(model.id)}];
         });

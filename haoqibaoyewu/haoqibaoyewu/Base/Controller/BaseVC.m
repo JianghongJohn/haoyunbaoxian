@@ -64,17 +64,15 @@
     appdelegate.window.rootViewController = navigation;
     
         //token//openId//userId//UserPhone
-//        //
-//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_TokenOnce];
-//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_Token];
-//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_OpenId];
-//        
-//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_UserId];
-//        
-//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_UserPhone];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-//    }
-   
+        //
+        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_Token];
+        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_OpenId];
+        
+        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_UserId];
+        
+        [[NSUserDefaults standardUserDefaults]removeObjectForKey:JH_UserPhone];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
     
 }
 -(void)dealloc{

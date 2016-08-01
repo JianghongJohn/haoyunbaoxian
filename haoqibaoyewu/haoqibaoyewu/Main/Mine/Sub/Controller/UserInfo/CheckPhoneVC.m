@@ -122,7 +122,7 @@
                 }
                 
                 
-                [SVProgressHUD showSuccessWithStatus:@"数据已加载"];
+                [SVProgressHUD showSuccessWithStatus:@"已发送"];
                 
                 
             }else{

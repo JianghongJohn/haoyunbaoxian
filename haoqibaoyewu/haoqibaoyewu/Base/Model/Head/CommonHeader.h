@@ -24,5 +24,5 @@
 #define JH_UserCityChange @"JH_UserCityChange"
 #define JH_UserInviterChange @"JH_UserInviterChange"
 #define JH_UserMobileChange @"JH_UserMobileChange"
-#define JH_TokenOnce @"JH_TokenOnce"
+
 #endif /* CommonHeader_h */

@@ -8,10 +8,12 @@
 
 #import "MyPointVC.h"
 #import "MyPointCell.h"
+#import "BonusPoint.h"
 @interface MyPointVC ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
-  
+    UILabel *_pointLabel;
+    NSMutableArray *_bonusPointArray;
 }
 @end
 
@@ -25,6 +27,8 @@
     [self _creatTableView];
     
     [self _creatHeaderView];
+    
+    [self _makeData];
 }
 
 
@@ -53,15 +57,15 @@
     moneyImageView.layer.cornerRadius = moneyImageView.width/2;
     moneyImageView.layer.masksToBounds = YES;
     //积分label
-    UILabel *pointLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, moneyImageView.bottom+10, SCREENWIDTH, 20)];
-    pointLabel.textColor = [UIColor redColor];
-    pointLabel.textAlignment = NSTextAlignmentCenter;
+    _pointLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, moneyImageView.bottom+10, SCREENWIDTH, 20)];
+    _pointLabel.textColor = [UIColor redColor];
+    _pointLabel.textAlignment = NSTextAlignmentCenter;
     
-    pointLabel.text = @"450";
+    _pointLabel.text = @"0.0";
     //积分明细
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, pointLabel.bottom+20, SCREENWIDTH-20, 1)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, _pointLabel.bottom+20, SCREENWIDTH-20, 1)];
     lineView.backgroundColor = [[UIColor lightGrayColor]colorWithAlphaComponent:0.5];
-    UILabel *staticlabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/2-50, pointLabel.bottom+10, 100, 20)];
+    UILabel *staticlabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/2-50, _pointLabel.bottom+10, 100, 20)];
     staticlabel.textColor = [UIColor lightGrayColor];
     staticlabel.textAlignment = NSTextAlignmentCenter;
     staticlabel.backgroundColor = [UIColor whiteColor];
@@ -78,7 +82,7 @@
     [headView addSubview:button];
     
     [headView addSubview:moneyImageView];
-    [headView addSubview:pointLabel];
+    [headView addSubview:_pointLabel];
     [headView addSubview:lineView];
     [headView addSubview:staticlabel];
  
@@ -88,20 +92,76 @@
  *  处理数据
  */
 -(void)_makeData{
+    /**
+     *  获取数据
+     */
+    if (_bonusPointArray==nil) {
+        
+        _bonusPointArray = [NSMutableArray array];
+    }
     
+    NSString *urlString1 = @"getBonusPointRecord.json";
+    NSDictionary *parameters1 =  @{
+                                 
+                                   };
+    //讲字典类型转换成json格式的数据，然后讲这个json字符串作为字典参数的value传到服务器
+    NSString *jsonStr = [NSDictionary DataTOjsonString:parameters1];
+    NSLog(@"jsonStr:%@",jsonStr);
+    NSDictionary *params = @{@"json":(NSString *)jsonStr}; //服务器最终接受到的对象，是一个字典，
+    
+    [JH_NetWorking requestData:urlString1 HTTPMethod:@"GET" params:[params mutableCopy] completionHandle:^(id result) {
+        NSDictionary *dic = result;
+        NSNumber *isSuccess = dic[@"success"];
+        //判断是否成功
+        if ([isSuccess isEqual:@1]) {
+            NSDictionary *data = dic[@"data"];
+            NSNumber *bonusPoint = data[@"bonusPoint"];
+            
+            _pointLabel.text = [NSString stringWithFormat:@"%@",bonusPoint];
+            
+            NSArray *bonusRecordList = data[@"bonusRecordList"];
+            if (bonusRecordList!=nil) {
+                for (NSDictionary *recorde in bonusRecordList) {
+                     BonusPoint *point = [BonusPoint mj_objectWithKeyValues:recorde];
+                    
+                    [_bonusPointArray addObject:point];
+
+                }
+            }else{
+                
+            }
+
+            /**
+             *  关闭进度条
+             */
+            
+            [SVProgressHUD dismiss];
+            
+            
+            
+        }else{
+            [SVProgressHUD showErrorWithStatus:dic[@"errorMsg"]];
+            
+            
+        }
+        
+        
+    } errorHandle:^(NSError *error) {
+        
+    }];
 }
 
 #pragma mark - tableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 {
-    return 3;
+    return _bonusPointArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     MyPointCell *cell = [[[NSBundle mainBundle]loadNibNamed:@"MyPointCell" owner:self options:nil]firstObject];
-    
+    cell.model = _bonusPointArray[indexPath.row];
     return cell;
 }
 

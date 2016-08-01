@@ -20,5 +20,15 @@
 
     // Configure the view for the selected state
 }
+-(void)setModel:(BonusPoint *)model{
+    if (_model!=model) {
+        _model = model;
+        
+        _typeLabel.text = _model.type;
+        _timeLabel.text = [NSString stringWithFormat:@"%@",_model.createTime];
+        _pointLabel.text = [NSString stringWithFormat:@"%li",_model.amount];
+    }
+    
+}
 
 @end

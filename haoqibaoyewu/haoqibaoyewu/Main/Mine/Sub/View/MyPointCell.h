@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BonusPoint.h"
 @interface MyPointCell : UITableViewCell
-
+@property (weak, nonatomic) IBOutlet UILabel *typeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *pointLabel;
+@property(nonatomic,strong)BonusPoint *model;
 @end
