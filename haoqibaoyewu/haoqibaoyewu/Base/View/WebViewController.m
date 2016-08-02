@@ -26,13 +26,14 @@
     
     [self _creatWebView];
 
+    [self _creatForwardBackButton];
 }
 /**
  *  创建webview
  */
 -(void)_creatWebView{
     _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, kTopBarHeight, SCREENWIDTH, SCREENHEIGHT-kBottomBarHeight)];
-   
+//    _webView.scalesPageToFit = YES;
     [self.view addSubview:_webView];
     
     
@@ -74,6 +75,46 @@
   
     }
 }
+/**
+ *  创建底部的网页前进和返回的按钮
+ */
+-(void)_creatForwardBackButton{
+    CGFloat bottomHeight = 35;
+    
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT-bottomHeight, SCREENHEIGHT, bottomHeight)];
+    [self.view addSubview:bottomView];
+    bottomView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.9];
+    
+    //前进按钮
+    UIButton *forwardButton = [[UIButton alloc] initWithFrame:CGRectMake(bottomHeight, 0, bottomHeight, bottomHeight)];
+    [bottomView addSubview:forwardButton];
+    [forwardButton setImage:UIIMAGE(@"arrow-right") forState:0];
+    [forwardButton addTarget:self action:@selector(forwardAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    //返回按钮
+    UIButton *backButton = [[UIButton alloc]  initWithFrame:CGRectMake(0, 0, bottomHeight, bottomHeight)];
+    [bottomView addSubview:backButton];
+    [backButton setImage:UIIMAGE(@"指向（左）") forState:0];
+    [backButton addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    
+}
+/**
+ *  前进
+ */
+-(void)forwardAction{
+    [_webView goForward];
+}
+/**
+ *  返回
+ */
+-(void)backAction{
+    if (_tpl &&![_webView canGoBack]) {
+        [_webView loadHTMLString:_tpl baseURL:nil];
+        return;
+    }
+    [_webView goBack];
+}
+
 
 #pragma mark - NJKWebViewProgressDelegate
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress

@@ -7,11 +7,15 @@
 //
 
 #import "NewsWebVC.h"
-
-@interface NewsWebVC ()
+#import "NJKWebViewProgress.h"
+#import "NJKWebViewProgressView.h"
+@interface NewsWebVC ()<NJKWebViewProgressDelegate,UIWebViewDelegate>
 {
     UIView *_headView;
     UIWebView *_webView;
+    NJKWebViewProgressView *_webViewProgressView;
+    NJKWebViewProgress *_webViewProgress;
+    NSURL *_url;
 }
 @end
 
@@ -26,10 +30,49 @@
     [self _loadNewsHtml];
     
     [self _creatHeadView];
-
+    
+    [self _creatForwardBackButton];
   
 }
-
+/**
+ *  创建底部的网页前进和返回的按钮
+ */
+-(void)_creatForwardBackButton{
+    CGFloat bottomHeight = 35;
+    
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT-bottomHeight, SCREENWIDTH, bottomHeight)];
+    [self.view addSubview:bottomView];
+    bottomView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.9];
+    
+    //前进按钮
+    UIButton *forwardButton = [[UIButton alloc] initWithFrame:CGRectMake(bottomHeight, 0, bottomHeight, bottomHeight)];
+    [bottomView addSubview:forwardButton];
+    [forwardButton setImage:UIIMAGE(@"arrow-right") forState:0];
+    [forwardButton addTarget:self action:@selector(forwardAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    //返回按钮
+    UIButton *backButton = [[UIButton alloc]  initWithFrame:CGRectMake(0, 0, bottomHeight, bottomHeight)];
+    [bottomView addSubview:backButton];
+    [backButton setImage:UIIMAGE(@"指向（左）") forState:0];
+    [backButton addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    
+}
+/**
+ *  前进
+ */
+-(void)forwardAction{
+    [_webView goForward];
+}
+/**
+ *  返回
+ */
+-(void)backAction{
+    if (_tpl &&![_webView canGoBack]) {
+        [_webView loadHTMLString:_tpl baseURL:nil];
+        return;
+    }
+    [_webView goBack];
+}
 /**
  *  创建头部的视图
  */
@@ -155,15 +198,109 @@
         
         _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, kTopBarHeight+60, SCREENWIDTH, SCREENHEIGHT-kBottomBarHeight-60)];
         _webView.backgroundColor = [UIColor clearColor];
-        [self.view addSubview:_webView];
+        _webView.delegate = self;
+        [self.view insertSubview:_webView atIndex:1];
     
         [_webView loadHTMLString:_tpl baseURL:nil];
     }
     
 }
+/**
+ *  加载点击的ruquest
+ *
+ *  @param request 打开的链接
+ */
+-(void)loadRequest:(NSURLRequest *)request{
+    /**
+     webviewProgress
+     */
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+
+        _webViewProgress = [[NJKWebViewProgress alloc] init];
+        _webView.delegate = _webViewProgress;
+        _webViewProgress.webViewProxyDelegate = self;
+        _webViewProgress.progressDelegate = self;
+        
+        CGRect navBounds = self.navigationController.navigationBar.bounds;
+        CGRect barFrame = CGRectMake(0,
+                                     navBounds.size.height - 2,
+                                     navBounds.size.width,
+                                     2);
+        _webViewProgressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
+        _webViewProgressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        [_webViewProgressView setProgress:0 animated:YES];
+        [self.navigationController.navigationBar addSubview:_webViewProgressView];
+    });
+    
+    
+    
+    [_webView loadRequest:request];
+    
+}
 
 
+#pragma mark - NJKWebViewProgressDelegate
+-(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
+{
+    [_webViewProgressView setProgress:progress animated:YES];
+    //    self.title = [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+}
+#pragma mark - UIWebViewDelegate
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    switch (navigationType)
+    {
+            //点击连接
+        case UIWebViewNavigationTypeBackForward:
+        {
+            NSLog(@"back");
+        }
+            break;
+            //提交表单
+        case UIWebViewNavigationTypeLinkClicked:
+        {
+            NSLog(@"link");
+            [self loadRequest:request];
+        }
+        case UIWebViewNavigationTypeFormSubmitted:
+        {
+            NSLog(@"submit");
+        }
+        case UIWebViewNavigationTypeReload:
+        {
+            NSLog(@"reload");
+        }
+        case UIWebViewNavigationTypeFormResubmitted:
+        {
+            NSLog(@"resubmit");
+        }
+        case UIWebViewNavigationTypeOther:
+        {
+            NSLog(@"other");
+        }
+        default:
+            break;
+    }
+    return YES;
+}
+-(void)webViewDidFinishLoad:(UIWebView *)webView{
+    
+    
+}
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    
+}
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationController.navigationBar addSubview:_webViewProgressView];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [_webViewProgressView removeFromSuperview];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
