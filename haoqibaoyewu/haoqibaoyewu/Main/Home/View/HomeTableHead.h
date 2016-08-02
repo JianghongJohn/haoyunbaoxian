@@ -11,5 +11,5 @@
 @interface HomeTableHead : UIView<UIScrollViewDelegate>
 //网络数据包括
 //轮番图四个地址图片标题
-//三个收益数据
+//三个收益数据。。
 @end
